@@ -7,7 +7,7 @@ function play(id)
     end
     local Sound = Instance.new("Sound", workspace)
     Sound.Name = "GUISound"
-    Sound.Volume = 4
+    Sound.Volume = 6
     Sound.SoundId = id
     Sound:Play()
  end
