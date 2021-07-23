@@ -137,6 +137,7 @@ UIGridLayout.Parent = TabC
 UIGridLayout.FillDirection = Enum.FillDirection.Vertical
 UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIGridLayout.CellSize = UDim2.new(0, 70, 0, 23)
+UIGridLayout.CellPadding = UDim2.new(0,5,0,10)
 UIGridLayout.StartCorner = Enum.StartCorner.TopRight
 
 TextButton1.MouseButton1Click:Connect(function()
