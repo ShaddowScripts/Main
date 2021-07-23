@@ -335,7 +335,7 @@ function InsideTab:CreateSlider(text, minvalue, maxvalue, callback)
     TextLabel_2.Position = UDim2.new(3.10714293, 0, 0.4, 0)
     TextLabel_2.Size = UDim2.new(0, 33, 0, 7)
     TextLabel_2.Font = Enum.Font.SourceSansBold
-    TextLabel_2.Text = "0"
+    TextLabel_2.Text = tostring(minvalue)
     TextLabel_2.TextColor3 = Color3.fromRGB(185, 136, 243)
     TextLabel_2.TextSize = 13.000
     TextLabel_2.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
