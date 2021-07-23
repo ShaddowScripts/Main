@@ -1,4 +1,16 @@
 local library = {}
+function play(id)
+    for _, v in next, workspace:GetChildren() do
+        if v.Name == "SoundForYourGui" then
+            v:Destroy()
+        end
+    end
+    local Sound = Instance.new("Sound", workspace)
+    Sound.Name = "GUISound"
+    Sound.Volume = 4
+    Sound.SoundId = id
+    Sound:Play()
+ end
 
 function library:CreateWindow(name)
     for i,v in pairs(game.CoreGui:GetChildren()) do
@@ -147,7 +159,7 @@ TabC.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
 end
 TabC.Visible = true
 TabC.BackgroundColor3 = Color3.fromRGB(46, 46, 46)
-print("Selected: "..TabC.Name)
+play("rbxassetid://1412830636")
 end)
 
 local InsideTab = {}
@@ -203,6 +215,7 @@ TextButton_Roundify_2px_2.SliceCenter = Rect.new(100, 100, 100, 100)
 TextButton_Roundify_2px_2.SliceScale = 0.020
 
 TextButton.MouseButton1Click:Connect(function()
+    play("rbxassetid://178104975")
     if not IsDropped then
         IsDropped = true
         DropdownContainer.Visible = true
@@ -431,6 +444,7 @@ local enabled = false
 function trigger()
 enabled = not enabled
 pcall(callback,enabled)
+play("rbxassetid://6309164078")
 if enabled then
     Frame.ImageColor3 = Color3.fromRGB(185, 136, 243)
     Frame_2.Position = UDim2.new(0.59, 0, 0.150000006, 0)
@@ -491,6 +505,7 @@ function InsideTab:CreateButton(text, callback)
 
     Button.MouseButton1Click:Connect(function()
 pcall(callback)
+play("rbxassetid://178104975")
     end)
 end
 return InsideTab
