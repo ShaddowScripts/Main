@@ -444,6 +444,13 @@ ToggleButton.MouseButton1Click:Connect(trigger)
 
 function switchactions:Set(state)
 enabled = state
+if enabled then
+    Frame.ImageColor3 = Color3.fromRGB(185, 136, 243)
+    Frame_2.Position = UDim2.new(0.59, 0, 0.150000006, 0)
+else
+    Frame.ImageColor3 = Color3.fromRGB(46, 46, 46)
+    Frame_2.Position = UDim2.new(0, 3, 0.150000006, 0)
+end
 pcall(callback,enabled)
 end
 return switchactions
