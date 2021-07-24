@@ -12,11 +12,53 @@ function play(id)
     Sound:Play()
  end
 
-function library:CreateWindow(name)
+function library:CreateWindow(name,theme)
+local theme1
+local theme2
+local theme3
+local toolight = false
     for i,v in pairs(game.CoreGui:GetChildren()) do
 if v.Name == "By Shaddow" then
         v:Destroy()
     end
+end
+
+if theme == "Normal" then
+theme1 = Color3.fromRGB(32,32,32)
+theme2 = Color3.fromRGB(26,26,26)
+theme3 = Color3.fromRGB(176, 148, 255)
+print("Theme selected: "..theme)
+elseif theme == "Reverse" then
+    theme1 = Color3.fromRGB(26,26,26)
+    theme2 = Color3.fromRGB(32,32,32)
+    theme3 = Color3.fromRGB(176, 148, 255)
+    print("Theme selected: "..theme)
+elseif theme == "Blood" then
+    theme1 = Color3.fromRGB(32,32,32)
+    theme2 = Color3.fromRGB(26,26,26)
+    theme3 = Color3.fromRGB(138, 3, 3)
+    print("Theme selected: "..theme)
+elseif theme == "Gainsboro" then
+    theme1 = Color3.fromRGB(32,32,32)
+    theme2 = Color3.fromRGB(26,26,26)
+    theme3 = Color3.fromRGB(220, 220, 221)
+    toolight = true
+    print("Theme selected: "..theme)
+elseif theme == "Canary" then
+    theme1 = Color3.fromRGB(32,32,32)
+    theme2 = Color3.fromRGB(26,26,26)
+    theme3 = Color3.fromRGB(255, 253, 130)
+    print("Theme selected: "..theme)
+elseif theme == "Emerald" then
+    theme1 = Color3.fromRGB(32,32,32)
+    theme2 = Color3.fromRGB(26,26,26)
+    theme3 = Color3.fromRGB(68, 207, 108)
+    print("Theme selected: "..theme)
+elseif theme == "Crimson" then
+    theme1 = Color3.fromRGB(32,32,32)
+    theme2 = Color3.fromRGB(26,26,26)
+    theme3 = Color3.fromRGB(214, 40, 57)
+    print("Theme selected: "..theme)
 end
 
 local Screen = Instance.new("ScreenGui")
@@ -45,7 +87,7 @@ Top.Active = true
 Top.Position = UDim2.new(0.5, 0, 0.240482569, 0)
 Top.Size = UDim2.new(0, 558, 0, 25)
 Top.Image = "rbxassetid://3570695787"
-Top.ImageColor3 = Color3.fromRGB(32,32,32)
+Top.ImageColor3 = theme1
 Top.ScaleType = Enum.ScaleType.Slice
 Top.SliceCenter = Rect.new(100, 100, 100, 100)
 Top.SliceScale = 0.030
@@ -68,6 +110,7 @@ Toggle.BackgroundTransparency = 1.000
 Toggle.Position = UDim2.new(0.00900000613, 0, 0.142857149, 0)
 Toggle.Rotation = 90.000
 Toggle.Size = UDim2.new(0, 15, 0, 16)
+Toggle.ImageColor3 = Color3.fromRGB(255, 255, 255)
 Toggle.Image = "https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&assetId=4731371541"
 
 Main.Name = "Main"
@@ -78,7 +121,7 @@ Main.BackgroundTransparency = 1.000
 Main.Position = UDim2.new(0.5, 0, 6.75571394, 0)
 Main.Size = UDim2.new(0, 558, 0, 298)
 Main.Image = "rbxassetid://3570695787"
-Main.ImageColor3 = Color3.fromRGB(26,26,26)
+Main.ImageColor3 = theme2
 Main.ScaleType = Enum.ScaleType.Slice
 Main.SliceCenter = Rect.new(100, 100, 100, 100)
 Main.SliceScale = 0.030
@@ -90,7 +133,7 @@ Tabs.BackgroundTransparency = 1.000
 Tabs.Position = UDim2.new(0.0129999956, 0, 0.0300000086, 0)
 Tabs.Size = UDim2.new(0, 119, 0, 282)
 Tabs.Image = "rbxassetid://3570695787"
-Tabs.ImageColor3 = Color3.fromRGB(32,32,32)
+Tabs.ImageColor3 = theme1
 Tabs.ScaleType = Enum.ScaleType.Slice
 Tabs.SliceCenter = Rect.new(100, 100, 100, 100)
 Tabs.SliceScale = 0.020
@@ -109,7 +152,7 @@ Items.BackgroundTransparency = 1.000
 Items.Position = UDim2.new(0.245519713, 0, 0.030201342, 0)
 Items.Size = UDim2.new(0, 414, 0, 282)
 Items.Image = "rbxassetid://3570695787"
-Items.ImageColor3 = Color3.fromRGB(32,32,32)
+Items.ImageColor3 = theme1
 Items.ScaleType = Enum.ScaleType.Slice
 Items.SliceCenter = Rect.new(100, 100, 100, 100)
 Items.SliceScale = 0.020
@@ -164,7 +207,7 @@ for i,t in next, Tabs:GetChildren() do
 if t.ClassName ~= "UIGridLayout" then
 t.TextColor3 = Color3.fromRGB(255, 255, 255)
 end
-TextButton1.TextColor3 = Color3.fromRGB(176, 148, 255)
+TextButton1.TextColor3 = theme3
 end
 Frame.Visible = true
 play("rbxassetid://1412830636")
@@ -217,7 +260,7 @@ TextButton_Roundify_2px_2.Position = UDim2.new(0.5, 0, 0.5, 0)
 TextButton_Roundify_2px_2.Selectable = true
 TextButton_Roundify_2px_2.Size = UDim2.new(1, 0, 1, 0)
 TextButton_Roundify_2px_2.Image = "rbxassetid://3570695787"
-TextButton_Roundify_2px_2.ImageColor3 = Color3.fromRGB(26,26,26)
+TextButton_Roundify_2px_2.ImageColor3 = theme2
 TextButton_Roundify_2px_2.ScaleType = Enum.ScaleType.Slice
 TextButton_Roundify_2px_2.SliceCenter = Rect.new(100, 100, 100, 100)
 TextButton_Roundify_2px_2.SliceScale = 0.020
@@ -261,7 +304,7 @@ DropdownContainer.BackgroundTransparency = 1.000
 DropdownContainer.Position = UDim2.new(1.46359456, 0, 0, 0)
 DropdownContainer.Size = UDim2.new(0, 197, 0, BodyYSize)
 DropdownContainer.Image = "rbxassetid://3570695787"
-DropdownContainer.ImageColor3 = Color3.fromRGB(26,26,26)
+DropdownContainer.ImageColor3 = theme2
 DropdownContainer.Visible = false
 DropdownContainer.ScaleType = Enum.ScaleType.Slice
 DropdownContainer.SliceCenter = Rect.new(100, 100, 100, 100)
@@ -307,7 +350,7 @@ function InsideTab:CreateSlider(text, minvalue, maxvalue, callback)
     Frame_3.Position = UDim2.new(1, 0, 0.395000011, 0)
     Frame_3.Size = UDim2.new(0, 148, 0, 8)
     Frame_3.Image = "rbxassetid://3570695787"
-    Frame_3.ImageColor3 = Color3.fromRGB(26,26,26)
+    Frame_3.ImageColor3 = theme2
     Frame_3.ScaleType = Enum.ScaleType.Slice
     Frame_3.SliceCenter = Rect.new(100, 100, 100, 100)
     Frame_3.SliceScale = 0.020
@@ -334,7 +377,7 @@ function InsideTab:CreateSlider(text, minvalue, maxvalue, callback)
     TextButton_Roundify_2px.Selectable = true
     TextButton_Roundify_2px.Size = UDim2.new(1, 0, 1, 0)
     TextButton_Roundify_2px.Image = "rbxassetid://3570695787"
-    TextButton_Roundify_2px.ImageColor3 = Color3.fromRGB(26,26,26)
+    TextButton_Roundify_2px.ImageColor3 = theme2
     TextButton_Roundify_2px.ScaleType = Enum.ScaleType.Slice
     TextButton_Roundify_2px.SliceCenter = Rect.new(100, 100, 100, 100)
     TextButton_Roundify_2px.SliceScale = 0.020
@@ -345,7 +388,7 @@ function InsideTab:CreateSlider(text, minvalue, maxvalue, callback)
     SliderInner.BackgroundTransparency = 1.000
     SliderInner.Size = UDim2.new(0, 0, 0, 8)
     SliderInner.Image = "rbxassetid://3570695787"
-    SliderInner.ImageColor3 = Color3.fromRGB(176, 148, 255)
+    SliderInner.ImageColor3 = theme3
     SliderInner.ScaleType = Enum.ScaleType.Slice
     SliderInner.SliceCenter = Rect.new(100, 100, 100, 100)
     SliderInner.SliceScale = 0.020
@@ -358,7 +401,7 @@ function InsideTab:CreateSlider(text, minvalue, maxvalue, callback)
     TextLabel_2.Size = UDim2.new(0, 33, 0, 7)
     TextLabel_2.Font = Enum.Font.SourceSansBold
     TextLabel_2.Text = tostring(minvalue)
-    TextLabel_2.TextColor3 = Color3.fromRGB(176, 148, 255)
+    TextLabel_2.TextColor3 = theme3
     TextLabel_2.TextSize = 13.000
     TextLabel_2.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
 
@@ -396,7 +439,7 @@ function InsideTab:Show()
         v.Visible = false
         end
         Frame.Visible = true
-        TextButton1.TextColor3 = Color3.fromRGB(176, 148, 255)
+        TextButton1.TextColor3 = theme3
 end
 
 function InsideTab:CreateToggle(text,callback)
@@ -425,7 +468,7 @@ Frame_t.BackgroundTransparency = 1.000
 Frame_t.Position = UDim2.new(1, 0, 0.333333343, 0)
 Frame_t.Size = UDim2.new(0, 27, 0, 13)
 Frame_t.Image = "rbxassetid://3570695787"
-Frame_t.ImageColor3 = Color3.fromRGB(26,26,26)
+Frame_t.ImageColor3 = theme2
 Frame_t.ScaleType = Enum.ScaleType.Slice
 Frame_t.SliceCenter = Rect.new(100, 100, 100, 100)
 Frame_t.SliceScale = 0.250
@@ -458,10 +501,16 @@ enabled = not enabled
 pcall(callback,enabled)
 play("rbxassetid://6309164078")
 if enabled then
-    Frame_t.ImageColor3 = Color3.fromRGB(176, 148, 255)
+    Frame_t.ImageColor3 = theme3
+    if toolight then
+    Frame_2.ImageColor3 = Color3.fromRGB(26,26,26)
+    end
     Frame_2.Position = UDim2.new(0.59, 0, 0.150000006, 0)
 else
-    Frame_t.ImageColor3 = Color3.fromRGB(26,26,26)
+    Frame_t.ImageColor3 = theme2
+    if toolight then
+    Frame_2.ImageColor3 = theme3
+    end
     Frame_2.Position = UDim2.new(0, 3, 0.150000006, 0)
 end
 end
@@ -471,10 +520,16 @@ ToggleButton.MouseButton1Click:Connect(trigger)
 function switchactions:Set(state)
 enabled = state
 if enabled then
-    Frame_t.ImageColor3 = Color3.fromRGB(176, 148, 255)
+    Frame_t.ImageColor3 = theme3
+    if toolight then
+        Frame_2.ImageColor3 = Color3.fromRGB(26,26,26)
+        end
     Frame_2.Position = UDim2.new(0.59, 0, 0.150000006, 0)
 else
-    Frame_t.ImageColor3 = Color3.fromRGB(26,26,26)
+    Frame_t.ImageColor3 = theme2
+    if toolight then
+        Frame_2.ImageColor3 = theme3
+        end
     Frame_2.Position = UDim2.new(0, 3, 0.150000006, 0)
 end
 pcall(callback,enabled)
@@ -510,7 +565,7 @@ function InsideTab:CreateButton(text, callback)
     Button_Roundify_3px.Selectable = true
     Button_Roundify_3px.Size = UDim2.new(1, 0, 1, 0)
     Button_Roundify_3px.Image = "rbxassetid://3570695787"
-    Button_Roundify_3px.ImageColor3 = Color3.fromRGB(26,26,26)
+    Button_Roundify_3px.ImageColor3 = theme2
     Button_Roundify_3px.ScaleType = Enum.ScaleType.Slice
     Button_Roundify_3px.SliceCenter = Rect.new(100, 100, 100, 100)
     Button_Roundify_3px.SliceScale = 0.030
