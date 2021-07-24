@@ -396,6 +396,7 @@ function InsideTab:Show()
         v.Visible = false
         end
         Frame.Visible = true
+        TextButton1.TextColor3 = Color3.fromRGB(145, 105, 255)
 end
 
 function InsideTab:CreateToggle(text,callback)
