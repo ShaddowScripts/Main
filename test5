@@ -1,6 +1,6 @@
 local library = {}
 function play(id)
-    for _, v in next, workspace:GetChildren() do
+    for i,v in pairs(workspace:GetChildren()) do
         if v.Name == "GUISound" then
             v:Destroy()
         end
