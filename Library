@@ -159,10 +159,14 @@ UIGridLayout_2.StartCorner = Enum.StartCorner.TopRight
 TextButton1.MouseButton1Click:Connect(function()
 for i,v in next,Items:GetChildren() do
 v.Visible = false
-TextButton1.TextColor3 = Color3.fromRGB(255, 255, 255)
+end
+for i,t in next, Tabs:GetChildren() do
+if t.ClassName ~= "UIGridLayout" then
+t.TextColor3 = Color3.fromRGB(255, 255, 255)
+end
+TextButton1.TextColor3 = Color3.fromRGB(171, 112, 255)
 end
 Frame.Visible = true
-TextButton1.TextColor3 = Color3.fromRGB(171, 112, 255)
 play("rbxassetid://1412830636")
 end)
 
