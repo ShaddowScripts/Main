@@ -144,7 +144,7 @@ Tabs.SliceScale = 0.020
 
 UIGridLayout.Parent = Tabs
 UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
-UIGridLayout.CellSize = UDim2.new(0, 100, 0, 26)
+UIGridLayout.CellSize = UDim2.new(0, 119, 0, 26)
 
 TabContainer.Name = "TabContainer"
 TabContainer.Parent = Main
