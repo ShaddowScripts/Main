@@ -74,69 +74,13 @@ local Tabs = Instance.new("ImageLabel")
 local UIGridLayout = Instance.new("UIGridLayout")
 local TabContainer = Instance.new("Folder")
 local Items = Instance.new("ImageLabel")
-local Loading = Instance.new("ScreenGui")
-local LoadingContainer = Instance.new("ImageLabel")
-local Back = Instance.new("ImageLabel")
-local Front = Instance.new("ImageLabel")
-local Loading_2 = Instance.new("TextLabel")
 local TextLabel = Instance.new("TextLabel")
-
-Screen.Enabled = false
-
-Loading.Name = "Loading"
-Loading.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-
-LoadingContainer.Name = "LoadingContainer"
-LoadingContainer.Parent = Loading
-LoadingContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-LoadingContainer.BackgroundTransparency = 1.000
-LoadingContainer.Position = UDim2.new(0.424, 0, 0.328, 0)
-LoadingContainer.Size = UDim2.new(0, 364, 0, 219)
-LoadingContainer.Image = "rbxassetid://3570695787"
-LoadingContainer.ImageColor3 = Color3.fromRGB(26, 26, 26)
-LoadingContainer.ScaleType = Enum.ScaleType.Slice
-LoadingContainer.SliceCenter = Rect.new(100, 100, 100, 100)
-LoadingContainer.SliceScale = 0.020
-
-Back.Name = "Back"
-Back.Parent = LoadingContainer
-Back.AnchorPoint = Vector2.new(0.5, 0.5)
-Back.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Back.BackgroundTransparency = 1.000
-Back.Position = UDim2.new(0.5, 0, 0.773972631, 0)
-Back.Size = UDim2.new(0, 263, 0, 18)
-Back.Image = "rbxassetid://3570695787"
-Back.ImageColor3 = Color3.fromRGB(32, 32, 32)
-Back.ScaleType = Enum.ScaleType.Slice
-Back.SliceCenter = Rect.new(100, 100, 100, 100)
-Back.SliceScale = 0.020
-
-Front.Name = "Front"
-Front.Parent = Back
-Front.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Front.BackgroundTransparency = 1.000
-Front.Size = UDim2.new(0, 0, 0, 18)
-Front.Image = "rbxassetid://3570695787"
-Front.ScaleType = Enum.ScaleType.Slice
-Front.ImageColor3 = theme3
-Front.SliceCenter = Rect.new(100, 100, 100, 100)
-Front.SliceScale = 0.020
-
-Loading_2.Name = "Loading"
-Loading_2.Parent = LoadingContainer
-Loading_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Loading_2.BackgroundTransparency = 1.000
-Loading_2.Position = UDim2.new(0.142857149, 0, 0.579908669, 0)
-Loading_2.Size = UDim2.new(0, 261, 0, 34)
-Loading_2.Font = Enum.Font.SourceSansSemibold
-Loading_2.Text = "Loading"
-Loading_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-Loading_2.TextSize = 15.000
 
 --Properties:
 
 Screen.Name = "By Shaddow"
 Screen.Parent = game:WaitForChild("CoreGui")
+Screen.Enabled = true
 
 Top.Name = "Top"
 Top.Parent = Screen
@@ -216,17 +160,6 @@ Items.ImageColor3 = theme1
 Items.ScaleType = Enum.ScaleType.Slice
 Items.SliceCenter = Rect.new(100, 100, 100, 100)
 Items.SliceScale = 0.020
-
-wait(.25)
-Front:TweenSize(UDim2.new(0,262,0,18), "In", "Linear",2)
-Loading_2.Text = "Loading."
-wait(.66)
-Loading_2.Text = "Loading.."
-wait(.66)
-Loading_2.Text = "Loading..."
-repeat wait() until Front.Size == UDim2.new(0,262,0,18)
-Loading:Destroy()
-Screen.Enabled = true
 
 local opened = true
 Toggle.MouseButton1Click:Connect(function()
