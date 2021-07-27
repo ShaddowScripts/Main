@@ -1,4 +1,5 @@
 local library = {}
+local windowpos = {}
 
 function library:CreateWindow(name)
     for i,v in pairs(game:GetService("CoreGui"):GetChildren()) do
@@ -6,6 +7,7 @@ function library:CreateWindow(name)
         v:Destroy() 
     end
     end
+    table.insert(windowpos, name)
 local Screen = Instance.new("ScreenGui")
 local WindowContainer = Instance.new("Folder")
 local Top = Instance.new("Frame")
@@ -32,7 +34,27 @@ Top.Parent = WindowContainer
 Top.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 Top.BorderSizePixel = 0
 Top.Active = true
-Top.Position = UDim2.new(0.429088265, 0, 0.165644169, 0)
+if #windowpos == 1 then
+Top.Position = UDim2.new(0.429088265, -552, 0.165644169, 0)
+elseif #windowpos == 2 then
+Top.Position = UDim2.new(0.429088265, -317, 0.165644169, 0)
+elseif #windowpos == 3 then
+Top.Position = UDim2.new(0.429088265, -89, 0.165644169, 0)
+elseif #windowpos == 4 then
+Top.Position = UDim2.new(0.429088265, 153, 0.165644169, 0)
+elseif #windowpos == 5 then
+Top.Position = UDim2.new(0.429088265, 388, 0.165644169, 0)
+elseif #windowpos == 6 then
+Top.Position = UDim2.new(0.429088265, 623, 0.165644169, 0)
+elseif #windowpos == 7 then
+    Top.Position = UDim2.new(0.429088265, 858, 0.165644169, 0)
+elseif #windowpos == 8 then
+    Top.Position = UDim2.new(0.429088265, 1093, 0.165644169, 0)
+elseif #windowpos == 9 then
+    Top.Position = UDim2.new(0.429088265, 1328, 0.165644169, 0)
+elseif #windowpos == 10 then
+    Top.Position = UDim2.new(0.429088265, 1565, 0.165644169, 0)
+    end
 Top.Size = UDim2.new(0, 230, 0, 17)
 Top.ZIndex = 2
 Top.Draggable = true
