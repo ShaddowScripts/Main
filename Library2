@@ -198,6 +198,14 @@ function InsideWindow:CreateButton(text,callback)
     TextButton_Roundify_2px.SliceScale = 0.020
     TextButton_Roundify_2px.ZIndex = 2
 
+    ButtonClick.MouseEnter:Connect(function()
+        TextButton_Roundify_2px.ImageColor3 = Color3.fromRGB(44,83,130)
+    end)
+    
+    ButtonClick.MouseLeave:Connect(function()
+        TextButton_Roundify_2px.ImageColor3 = Color3.fromRGB(33, 53, 80)
+    end)
+
 ButtonClick.MouseButton1Click:Connect(function()
 pcall(callback)
 end)
@@ -275,6 +283,14 @@ ImageLabel.Visible = false
 ImageLabel.ZIndex = 3
 ImageLabel.Image = "https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&assetId=4510424246"
 
+ToggleButton.MouseEnter:Connect(function()
+    TextButton_Roundify_2px.ImageColor3 = Color3.fromRGB(44,83,130)
+end)
+
+ToggleButton.MouseLeave:Connect(function()
+    TextButton_Roundify_2px.ImageColor3 = Color3.fromRGB(33, 53, 80)
+end)
+
 local enabled = false
 function trigger()
 enabled = not enabled
@@ -285,7 +301,6 @@ else
     ImageLabel.Visible = false
 end
 end
-
 ToggleButton.MouseButton1Click:Connect(trigger)
 end
 
@@ -342,8 +357,8 @@ function InsideWindow:CreateDropdown(text,list,callback)
     DropdownButton.Parent = Dropdown
     DropdownButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     DropdownButton.BackgroundTransparency = 1.000
-    DropdownButton.Position = UDim2.new(1.25999999, 0, 0, 6)
-    DropdownButton.Rotation = 90.000
+    DropdownButton.Position = UDim2.new(1.25999999, 0, -0.06, 6)
+    DropdownButton.Rotation = 180
     DropdownButton.Size = UDim2.new(0, 15, 0, 15)
     DropdownButton.Image = "https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&assetId=4731371541"
     DropdownButton.ZIndex = 3
@@ -357,15 +372,16 @@ function InsideWindow:CreateDropdown(text,list,callback)
     DropdownContainer.Visible = false
 
 for i,v in pairs(list) do
-BodyYSize = BodyYSize + 20
+BodyYSize = BodyYSize + 17
 local DropdownContainerButton = Instance.new("TextButton")
 DropdownContainerButton.Name = "DropdownContainerButton"
 DropdownContainerButton.Parent = DropdownContainer
-DropdownContainerButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-DropdownContainerButton.BackgroundTransparency = 1.000
-DropdownContainerButton.Size = UDim2.new(0, 118, 0, 17)
+DropdownContainerButton.BackgroundColor3 = Color3.fromRGB(33, 53, 80)
+DropdownContainerButton.BackgroundTransparency = 0
+DropdownContainerButton.Size = UDim2.new(0, 117, 0, 17)
 DropdownContainerButton.Font = Enum.Font.GothamSemibold
 DropdownContainerButton.Text = v
+DropdownContainerButton.BorderSizePixel = 0
 DropdownContainerButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 DropdownContainerButton.TextSize = 11.000
 DropdownContainerButton.ZIndex = 5
@@ -377,6 +393,14 @@ DropdownContainerButton.MouseButton1Click:Connect(function()
     IsDropped = false
         DropdownContainer.Visible = false
     end)
+
+    DropdownContainerButton.MouseEnter:Connect(function()
+        DropdownContainerButton.BackgroundColor3 = Color3.fromRGB(44,83,130)
+    end)
+
+    DropdownContainerButton.MouseLeave:Connect(function()
+        DropdownContainerButton.BackgroundColor3 = Color3.fromRGB(33, 53, 80)
+    end)
 end
 
 DropdownContainer.Size = UDim2.new(0, 117, 0, BodyYSize)
@@ -384,7 +408,7 @@ DropdownContainer.ZIndex = 4
 
 UIGridLayout2.Parent = DropdownContainer
 UIGridLayout2.SortOrder = Enum.SortOrder.LayoutOrder
-UIGridLayout2.CellSize = UDim2.new(0, 118, 0, 17)
+UIGridLayout2.CellSize = UDim2.new(0, 117, 0, 17)
 
 DropdownButton.MouseButton1Click:Connect(function()
     if not IsDropped then
