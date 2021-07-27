@@ -335,7 +335,7 @@ function InsideWindow:CreateDropdown(text,list,callback)
     DropdownContainer.Visible = false
 
 for i,v in pairs(list) do
-BodyYSize = BodyYSize + 19
+BodyYSize = BodyYSize + 20
 local DropdownContainerButton = Instance.new("TextButton")
 DropdownContainerButton.Name = "DropdownContainerButton"
 DropdownContainerButton.Parent = DropdownContainer
@@ -350,7 +350,7 @@ DropdownContainerButton.ZIndex = 5
 
 
 DropdownContainerButton.MouseButton1Click:Connect(function()
-    DropLabel.Text = v
+    DropTextLabel.Text = v
     callback(v)
     IsDropped = false
         DropdownContainer.Visible = false
