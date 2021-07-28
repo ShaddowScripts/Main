@@ -136,7 +136,7 @@ OpenClose.Name = "OpenClose"
 OpenClose.Parent = Top
 OpenClose.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 OpenClose.BackgroundTransparency = 1.000
-OpenClose.Position = UDim2.new(0.886956513, 0, -0.176470593, 0)
+OpenClose.Position = UDim2.new(0.9, 0, -0.176470593, 0)
 OpenClose.Size = UDim2.new(0, 26, 0, 20)
 OpenClose.ZIndex = 3
 OpenClose.Font = Enum.Font.Nunito
@@ -392,6 +392,7 @@ DropdownContainerButton.MouseButton1Click:Connect(function()
     callback(v)
     IsDropped = false
         DropdownContainer.Visible = false
+        DropdownButton.Rotation = 180
     end)
 
     DropdownContainerButton.MouseEnter:Connect(function()
