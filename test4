@@ -1,0 +1,543 @@
+local library = {}
+local windowpos = {}
+
+function library:CreateWindow(name)
+    for i,v in pairs(game:GetService("CoreGui"):GetChildren()) do
+       if v.Name == name then
+        v:Destroy() 
+    end
+    end
+    table.insert(windowpos, name)
+local Screen = Instance.new("ScreenGui")
+local WindowContainer = Instance.new("Folder")
+local Top = Instance.new("Frame")
+local Top2 = Instance.new("ImageLabel")
+local TextLabel = Instance.new("TextLabel")
+local Top1 = Instance.new("Frame")
+local Cointainer = Instance.new("Folder")
+local TabContainer = Instance.new("Frame")
+local Roundify = Instance.new("ImageLabel")
+local ItemContainer = Instance.new("Frame")
+local UIGridLayout = Instance.new("UIGridLayout")
+local OpenClose = Instance.new("TextButton")
+
+--Properties:
+
+Screen.Name = name
+Screen.Parent = game:GetService("CoreGui")
+
+WindowContainer.Name = "WindowContainer"
+WindowContainer.Parent = Screen
+
+Top.Name = "Top"
+Top.Parent = WindowContainer
+Top.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+Top.BorderSizePixel = 0
+Top.Active = true
+if #windowpos == 1 then
+Top.Position = UDim2.new(0.429088265, -552, 0.165644169, 0)
+elseif #windowpos == 2 then
+Top.Position = UDim2.new(0.429088265, -317, 0.165644169, 0)
+elseif #windowpos == 3 then
+Top.Position = UDim2.new(0.429088265, -89, 0.165644169, 0)
+elseif #windowpos == 4 then
+Top.Position = UDim2.new(0.429088265, 153, 0.165644169, 0)
+elseif #windowpos == 5 then
+Top.Position = UDim2.new(0.429088265, 388, 0.165644169, 0)
+elseif #windowpos == 6 then
+Top.Position = UDim2.new(0.429088265, 623, 0.165644169, 0)
+elseif #windowpos == 7 then
+    Top.Position = UDim2.new(0.429088265, 858, 0.165644169, 0)
+elseif #windowpos == 8 then
+    Top.Position = UDim2.new(0.429088265, 1093, 0.165644169, 0)
+elseif #windowpos == 9 then
+    Top.Position = UDim2.new(0.429088265, 1328, 0.165644169, 0)
+elseif #windowpos == 10 then
+    Top.Position = UDim2.new(0.429088265, 1565, 0.165644169, 0)
+    end
+Top.Size = UDim2.new(0, 230, 0, 17)
+Top.ZIndex = 2
+Top.Draggable = true
+
+Top2.Name = "Top2"
+Top2.Parent = Top
+Top2.AnchorPoint = Vector2.new(0.5, 0.5)
+Top2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Top2.BackgroundTransparency = 1.000
+Top2.Position = UDim2.new(0.493478268, 0, 0.5, 0)
+Top2.Size = UDim2.new(0.986956537, 6, 1, 6)
+Top2.Image = "rbxassetid://3570695787"
+Top2.ImageColor3 = Color3.fromRGB(10, 10, 10)
+Top2.ScaleType = Enum.ScaleType.Slice
+Top2.SliceCenter = Rect.new(100, 100, 100, 100)
+Top2.SliceScale = 0.030
+
+TextLabel.Parent = Top2
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BackgroundTransparency = 1.000
+TextLabel.Position = UDim2.new(0.0386266112, 0, 0, 0)
+TextLabel.Size = UDim2.new(0, 198, 0, 23)
+TextLabel.ZIndex = 5
+TextLabel.Font = Enum.Font.GothamSemibold
+TextLabel.Text = name
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextSize = 14.000
+TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+Top1.Name = "Top1"
+Top1.Parent = Top
+Top1.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+Top1.BorderSizePixel = 0
+Top1.Position = UDim2.new(-0.0130434781, 0, 0, 0)
+Top1.Size = UDim2.new(0, 233, 0, 17)
+Top1.ZIndex = 3
+
+Cointainer.Name = "Cointainer"
+Cointainer.Parent = Top
+
+TabContainer.Name = "TabContainer"
+TabContainer.Parent = Cointainer
+TabContainer.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+TabContainer.BackgroundTransparency = 0.600
+TabContainer.BorderSizePixel = 0
+TabContainer.Position = UDim2.new(-0.0130434781, 0, 1, 0)
+TabContainer.Size = UDim2.new(0, 233, 0, 0)
+TabContainer.ZIndex = 2
+
+Roundify.Name = "Roundify"
+Roundify.Parent = TabContainer
+Roundify.AnchorPoint = Vector2.new(0.5, 0.5)
+Roundify.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Roundify.BackgroundTransparency = 1.000
+Roundify.Position = UDim2.new(0.5, 0, 0.5, 0)
+Roundify.Size = UDim2.new(0.974576294, 6, 1, 6)
+Roundify.Image = "rbxassetid://3570695787"
+Roundify.ImageColor3 = Color3.fromRGB(15, 15, 15)
+Roundify.ImageTransparency = 0.100
+Roundify.ScaleType = Enum.ScaleType.Slice
+Roundify.SliceCenter = Rect.new(100, 100, 100, 100)
+Roundify.SliceScale = 0.030
+
+ItemContainer.Name = "ItemContainer"
+ItemContainer.Parent = TabContainer
+ItemContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ItemContainer.BackgroundTransparency = 1.000
+ItemContainer.Position = UDim2.new(0.0386266112, 0, 0.021428572, 0)
+ItemContainer.Size = UDim2.new(0, 221, 0, 0)
+ItemContainer.ZIndex = 4
+
+UIGridLayout.Parent = ItemContainer
+UIGridLayout.FillDirection = Enum.FillDirection.Vertical
+UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIGridLayout.CellPadding = UDim2.new(0,5,0,0)
+UIGridLayout.CellSize = UDim2.new(0, 80, 0, 27)
+
+OpenClose.Name = "OpenClose"
+OpenClose.Parent = Top
+OpenClose.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+OpenClose.BackgroundTransparency = 1.000
+OpenClose.Position = UDim2.new(0.9, 0, -0.176470593, 0)
+OpenClose.Size = UDim2.new(0, 26, 0, 20)
+OpenClose.ZIndex = 3
+OpenClose.Font = Enum.Font.Nunito
+OpenClose.Text = "X"
+OpenClose.TextColor3 = Color3.fromRGB(255, 255, 255)
+OpenClose.TextScaled = true
+OpenClose.TextSize = 13.000
+OpenClose.TextWrapped = true
+
+local InsideWindow = {}
+
+function InsideWindow:CreateButton(text,callback)
+    text = text or "Button"
+    callback = callback or function() end
+
+    local Button = Instance.new("TextLabel")
+    local ButtonClick = Instance.new("TextButton")
+    local TextButton_Roundify_2px = Instance.new("ImageLabel")
+
+    Button.Name = "Button"
+    Button.Parent = ItemContainer
+    Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Button.BackgroundTransparency = 1.000
+    Button.Position = UDim2.new(0, 0, 0.0587155968, 0)
+    Button.Size = UDim2.new(0, 80, 0, 21)
+    Button.Font = Enum.Font.SourceSans
+    Button.Text = ""
+    Button.TextColor3 = Color3.fromRGB(0, 0, 0)
+    Button.TextSize = 14.000
+    Button.ZIndex = 3
+    
+    ButtonClick.Name = "ButtonClick"
+    ButtonClick.Parent = Button
+    ButtonClick.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    ButtonClick.BackgroundTransparency = 1.000
+    ButtonClick.BorderSizePixel = 0
+    ButtonClick.Size = UDim2.new(0, 54, 0, 18)
+    ButtonClick.Position = UDim2.new(0, 0,0, 0)
+    ButtonClick.ZIndex = 2
+    ButtonClick.Text = text
+    ButtonClick.Font = Enum.Font.GothamSemibold
+    ButtonClick.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ButtonClick.TextSize = 11.000
+    ButtonClick.ZIndex = 3
+    
+    TextButton_Roundify_2px.Name = "TextButton_Roundify_2px"
+    TextButton_Roundify_2px.Parent = ButtonClick
+    TextButton_Roundify_2px.Active = true
+    TextButton_Roundify_2px.AnchorPoint = Vector2.new(0.5, 0.5)
+    TextButton_Roundify_2px.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TextButton_Roundify_2px.BackgroundTransparency = 1.000
+    TextButton_Roundify_2px.Position = UDim2.new(0.5, 0, 0.5, 0)
+    TextButton_Roundify_2px.Selectable = true
+    TextButton_Roundify_2px.Size = UDim2.new(1, 0, 1, 0)
+    TextButton_Roundify_2px.Image = "rbxassetid://3570695787"
+    TextButton_Roundify_2px.ImageColor3 = Color3.fromRGB(33, 53, 80)
+    TextButton_Roundify_2px.ScaleType = Enum.ScaleType.Slice
+    TextButton_Roundify_2px.SliceCenter = Rect.new(100, 100, 100, 100)
+    TextButton_Roundify_2px.SliceScale = 0.020
+    TextButton_Roundify_2px.ZIndex = 2
+
+    ButtonClick.MouseEnter:Connect(function()
+        TextButton_Roundify_2px.ImageColor3 = Color3.fromRGB(44,83,130)
+    end)
+    
+    ButtonClick.MouseLeave:Connect(function()
+        TextButton_Roundify_2px.ImageColor3 = Color3.fromRGB(33, 53, 80)
+    end)
+
+ButtonClick.MouseButton1Click:Connect(function()
+pcall(callback)
+end)
+end
+
+function InsideWindow:CreateCheckbox(text,callback)
+    text = text or "Checkbox"
+    callback = callback or function() end
+
+    local Toggle = Instance.new("TextLabel")
+local ToggleButton = Instance.new("TextButton")
+local TextButton_Roundify_2px = Instance.new("ImageLabel")
+local ToggleText = Instance.new("TextLabel")
+local ImageLabel = Instance.new("ImageLabel")
+
+Toggle.Name = "Toggle"
+Toggle.Parent = ItemContainer
+Toggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Toggle.BackgroundTransparency = 1.000
+Toggle.Size = UDim2.new(0, 200, 0, 50)
+Toggle.ZIndex = 2
+Toggle.Font = Enum.Font.SourceSans
+Toggle.Text = ""
+Toggle.TextColor3 = Color3.fromRGB(0, 0, 0)
+Toggle.TextSize = 14.000
+Toggle.TextXAlignment = Enum.TextXAlignment.Right
+
+ToggleButton.Name = "ToggleButton"
+ToggleButton.Parent = Toggle
+ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleButton.BackgroundTransparency = 1.000
+ToggleButton.BorderSizePixel = 0
+ToggleButton.Position = UDim2.new(0, 0, 0.150000006, 0)
+ToggleButton.Size = UDim2.new(0, 21, 0, 20)
+ToggleButton.ZIndex = 4
+ToggleButton.Font = Enum.Font.SourceSans
+ToggleButton.Text = ""
+ToggleButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+ToggleButton.TextSize = 14.000
+
+TextButton_Roundify_2px.Name = "TextButton_Roundify_2px"
+TextButton_Roundify_2px.Parent = ToggleButton
+TextButton_Roundify_2px.Active = true
+TextButton_Roundify_2px.AnchorPoint = Vector2.new(0.5, 0.5)
+TextButton_Roundify_2px.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton_Roundify_2px.BackgroundTransparency = 1.000
+TextButton_Roundify_2px.Position = UDim2.new(0.5, 0, 0.5, 0)
+TextButton_Roundify_2px.Selectable = true
+TextButton_Roundify_2px.Size = UDim2.new(1, 0, 1, 0)
+TextButton_Roundify_2px.ZIndex = 3
+TextButton_Roundify_2px.Image = "rbxassetid://3570695787"
+TextButton_Roundify_2px.ImageColor3 = Color3.fromRGB(33, 53, 80)
+TextButton_Roundify_2px.ScaleType = Enum.ScaleType.Slice
+TextButton_Roundify_2px.SliceCenter = Rect.new(100, 100, 100, 100)
+TextButton_Roundify_2px.SliceScale = 0.020
+
+ToggleText.Name = "ToggleText"
+ToggleText.Parent = Toggle
+ToggleText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleText.BackgroundTransparency = 1.000
+ToggleText.Position = UDim2.new(0.412499994, 0, 0.111111112, 0)
+ToggleText.Size = UDim2.new(0, 71, 0, 23)
+ToggleText.ZIndex = 3
+ToggleText.Font = Enum.Font.GothamSemibold
+ToggleText.Text = text
+ToggleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleText.TextSize = 12.000
+ToggleText.TextXAlignment = Enum.TextXAlignment.Left
+
+ImageLabel.Parent = ToggleButton
+ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ImageLabel.BackgroundTransparency = 1.000
+ImageLabel.Size = UDim2.new(0, 21, 0, 20)
+ImageLabel.Visible = false
+ImageLabel.ZIndex = 3
+ImageLabel.Image = "https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&assetId=4510424246"
+
+ToggleButton.MouseEnter:Connect(function()
+    TextButton_Roundify_2px.ImageColor3 = Color3.fromRGB(44,83,130)
+end)
+
+ToggleButton.MouseLeave:Connect(function()
+    TextButton_Roundify_2px.ImageColor3 = Color3.fromRGB(33, 53, 80)
+end)
+
+local enabled = false
+function trigger()
+enabled = not enabled
+pcall(callback,enabled)
+if enabled then
+    ImageLabel.Visible = true
+else
+    ImageLabel.Visible = false
+end
+end
+ToggleButton.MouseButton1Click:Connect(trigger)
+end
+
+function InsideWindow:CreateSlider(text,minvalue,maxvalue,callback)
+    text = text or "Slider"
+    minvalue = minvalue or 0
+    maxvalue = maxvalue or 100
+
+    callback = callback or function() end
+
+    local mouse = game.Players.LocalPlayer:GetMouse()
+    local uis = game:GetService("UserInputService")
+    local Value
+
+    local Slider = Instance.new("TextLabel")
+    local SliderDrag = Instance.new("TextButton")
+    local SliderText = Instance.new("TextLabel")
+    local SliderBack = Instance.new("Frame")
+    local SliderInner = Instance.new("Frame")
+
+    Slider.Name = "Slider"
+    Slider.Parent = ItemContainer
+    Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Slider.BackgroundTransparency = 1.000
+    Slider.Size = UDim2.new(0, 200, 0, 50)
+    Slider.Font = Enum.Font.GothamSemibold
+    Slider.Text = "Slider"
+    Slider.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Slider.TextSize = 11.000
+    
+    SliderDrag.Name = "SliderDrag"
+    SliderDrag.Parent = Slider
+    SliderDrag.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SliderDrag.BackgroundTransparency = 1.000
+    SliderDrag.BorderSizePixel = 0
+    SliderDrag.Position = UDim2.new(0, 0, 0.259073883, 0)
+    SliderDrag.Size = UDim2.new(0, 153, 0, 15)
+    SliderDrag.ZIndex = 2
+    SliderDrag.Font = Enum.Font.SourceSans
+    SliderDrag.Text = ""
+    SliderDrag.TextColor3 = Color3.fromRGB(0, 0, 0)
+    SliderDrag.TextSize = 14.000
+    SliderDrag.TextXAlignment = Enum.TextXAlignment.Left
+    
+    SliderText.Name = "SliderText"
+    SliderText.Parent = SliderDrag
+    SliderText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SliderText.BackgroundTransparency = 1.000
+    SliderText.Position = UDim2.new(0.00653594779, 0, 0.125666305, 0)
+    SliderText.Size = UDim2.new(0, 152, 0, 10)
+    SliderText.ZIndex = 2
+    SliderText.Text = text
+    SliderText.Font = Enum.Font.GothamSemibold
+    SliderText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SliderText.TextSize = 11.000
+    
+    SliderBack.Name = "SliderBack"
+    SliderBack.Parent = SliderDrag
+    SliderBack.BackgroundColor3 = Color3.fromRGB(33, 53, 80)
+    SliderBack.BorderSizePixel = 0
+    SliderBack.Position = UDim2.new(0.00653594779, 0, 0, 0)
+    SliderBack.Size = UDim2.new(0, 150, 0, 14)
+    
+    SliderInner.Name = "SliderInner"
+    SliderInner.Parent = SliderDrag
+    SliderInner.BackgroundColor3 = Color3.fromRGB(44, 83, 130)
+    SliderInner.BorderSizePixel = 0
+    SliderInner.Position = UDim2.new(0.00653594779, 0, 0, 0)
+    SliderInner.Size = UDim2.new(0, 0, 0, 14)
+
+SliderDrag.MouseButton1Down:Connect(function()
+    Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 150) * SliderInner.AbsoluteSize.X) + tonumber(minvalue)) or 0
+    pcall(function()
+        callback(Value)
+        SliderText.Text = text.." / "..Value
+    end)
+    SliderInner.Size = UDim2.new(0, math.clamp(mouse.X - SliderInner.AbsolutePosition.X, 0, 150), 0, 14)
+    moveconnection = mouse.Move:Connect(function()
+        Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 150) * SliderInner.AbsoluteSize.X) + tonumber(minvalue))
+        pcall(function()
+            callback(Value)
+            SliderText.Text = text.." / "..Value
+        end)
+        SliderInner.Size = UDim2.new(0, math.clamp(mouse.X - SliderInner.AbsolutePosition.X, 0, 150), 0, 14)
+    end)
+    releaseconnection = uis.InputEnded:Connect(function(Mouse)
+        if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
+            Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 150) * SliderInner.AbsoluteSize.X) + tonumber(minvalue))
+            pcall(function()
+                callback(Value)
+            end)
+            SliderInner.Size = UDim2.new(0, math.clamp(mouse.X - SliderInner.AbsolutePosition.X, 0, 150), 0, 14)
+            moveconnection:Disconnect()
+            releaseconnection:Disconnect()
+        end
+    end)
+end)
+end
+
+function InsideWindow:CreateDropdown(text,list,callback)
+    local BodyYSize = 0
+    local IsDropped = false
+    callback = callback or function() end
+    list = list or {}
+    text = text or "Dropdown"
+
+    local Dropdown = Instance.new("TextLabel")
+    local DropdownTextContainer = Instance.new("ImageLabel")
+    local DropTextLabel = Instance.new("TextLabel")
+    local DropdownButton = Instance.new("ImageButton")
+    local DropdownContainer = Instance.new("Frame")
+    local UIGridLayout2 = Instance.new("UIGridLayout")
+
+    Dropdown.Name = "Dropdown"
+    Dropdown.Parent = ItemContainer
+    Dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Dropdown.BackgroundTransparency = 1.000
+    Dropdown.Position = UDim2.new(0, 0, 0.117431194, 0)
+    Dropdown.Size = UDim2.new(0, 80, 0, 20)
+    Dropdown.Font = Enum.Font.SourceSans
+    Dropdown.Text = ""
+    Dropdown.TextColor3 = Color3.fromRGB(0, 0, 0)
+    Dropdown.TextSize = 14.000
+    Dropdown.ZIndex = 3
+
+    DropdownTextContainer.Name = "DropdownTextContainer"
+    DropdownTextContainer.Parent = Dropdown
+    DropdownTextContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    DropdownTextContainer.BackgroundTransparency = 1.000
+    DropdownTextContainer.Position = UDim2.new(0, 0, 0.185185179, 0)
+    DropdownTextContainer.Size = UDim2.new(0, 117, 0, 15)
+    DropdownTextContainer.Image = "rbxassetid://3570695787"
+    DropdownTextContainer.ImageColor3 = Color3.fromRGB(33, 53, 80)
+    DropdownTextContainer.ScaleType = Enum.ScaleType.Slice
+    DropdownTextContainer.SliceCenter = Rect.new(100, 100, 100, 100)
+    DropdownTextContainer.SliceScale = 0.020
+    DropdownTextContainer.ZIndex = 3
+
+    DropTextLabel.Parent = DropdownTextContainer
+    DropTextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    DropTextLabel.BackgroundTransparency = 1.000
+    DropTextLabel.Size = UDim2.new(0, 117, 0, 15)
+    DropTextLabel.Font = Enum.Font.GothamSemibold
+    DropTextLabel.Text = text
+    DropTextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    DropTextLabel.TextSize = 11.000
+    DropTextLabel.ZIndex = 3
+
+    DropdownButton.Name = "DropdownButton"
+    DropdownButton.Parent = Dropdown
+    DropdownButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    DropdownButton.BackgroundTransparency = 1.000
+    DropdownButton.Position = UDim2.new(1.25999999, 0, -0.06, 6)
+    DropdownButton.Rotation = 180
+    DropdownButton.Size = UDim2.new(0, 15, 0, 15)
+    DropdownButton.Image = "https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&assetId=4731371541"
+    DropdownButton.ZIndex = 3
+
+    DropdownContainer.Name = "DropdownContainer"
+    DropdownContainer.Parent = Dropdown
+    DropdownContainer.BackgroundColor3 = Color3.fromRGB(33, 53, 80)
+    DropdownContainer.BorderSizePixel = 0
+    DropdownContainer.Position = UDim2.new(0, 0, 0.703703701, 0)
+    DropdownContainer.Size = UDim2.new(0, 117, 0, 81)
+    DropdownContainer.Visible = false
+
+for i,v in pairs(list) do
+BodyYSize = BodyYSize + 17
+local DropdownContainerButton = Instance.new("TextButton")
+DropdownContainerButton.Name = "DropdownContainerButton"
+DropdownContainerButton.Parent = DropdownContainer
+DropdownContainerButton.BackgroundColor3 = Color3.fromRGB(33, 53, 80)
+DropdownContainerButton.BackgroundTransparency = 0
+DropdownContainerButton.Size = UDim2.new(0, 117, 0, 17)
+DropdownContainerButton.Font = Enum.Font.GothamSemibold
+DropdownContainerButton.Text = v
+DropdownContainerButton.BorderSizePixel = 0
+DropdownContainerButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+DropdownContainerButton.TextSize = 11.000
+DropdownContainerButton.ZIndex = 5
+
+
+DropdownContainerButton.MouseButton1Click:Connect(function()
+    DropTextLabel.Text = v
+    callback(v)
+    IsDropped = false
+        DropdownContainer.Visible = false
+        DropdownButton.Rotation = 180
+    end)
+
+    DropdownContainerButton.MouseEnter:Connect(function()
+        DropdownContainerButton.BackgroundColor3 = Color3.fromRGB(44,83,130)
+    end)
+
+    DropdownContainerButton.MouseLeave:Connect(function()
+        DropdownContainerButton.BackgroundColor3 = Color3.fromRGB(33, 53, 80)
+    end)
+end
+
+DropdownContainer.Size = UDim2.new(0, 117, 0, BodyYSize)
+DropdownContainer.ZIndex = 4
+
+UIGridLayout2.Parent = DropdownContainer
+UIGridLayout2.SortOrder = Enum.SortOrder.LayoutOrder
+UIGridLayout2.CellSize = UDim2.new(0, 117, 0, 17)
+
+DropdownButton.MouseButton1Click:Connect(function()
+    if not IsDropped then
+        IsDropped = true
+        DropdownContainer.Visible = true
+        DropdownButton.Rotation = 90.000
+        else
+            IsDropped = false
+            DropdownButton.Rotation = 180
+        DropdownContainer.Visible = false
+        end
+    end)
+end
+
+	ItemContainer.ChildAdded:Connect(function(v)
+        if v.ClassName ~= "UIGridLayout" then
+        ItemContainer.Size = UDim2.new(0, 221,0, ItemContainer.Size.Y.Offset + 28)
+		TabContainer.Size = UDim2.new(0,233,0,TabContainer.Size.Y.Offset + 28)
+        end
+    end)
+
+
+	local opened = true
+	OpenClose.MouseButton1Click:Connect(function()
+		if opened then
+		TabContainer.Visible = false
+			opened = false
+		else
+		TabContainer.Visible = true
+			opened = true
+		end
+	end)
+return InsideWindow
+end
+return library
