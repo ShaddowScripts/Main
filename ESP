@@ -12,7 +12,7 @@ local ESP = {
     Font = 3,
     AttachShift = 1,
     TeamMates = true,
-    Players = true,
+    Players = false,
     Health = true,
     PrimaryPart = "HumanoidRootPart",
     
