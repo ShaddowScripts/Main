@@ -304,6 +304,102 @@ end
 ToggleButton.MouseButton1Click:Connect(trigger)
 end
 
+function InsideWindow:CreateSlider(text,minvalue,maxvalue,callback)
+    text = text or "Slider"
+    minvalue = minvalue or 0
+    maxvalue = maxvalue or 100
+
+    callback = callback or function() end
+
+    local mouse = game.Players.LocalPlayer:GetMouse()
+    local uis = game:GetService("UserInputService")
+    local Value
+
+    local Slider = Instance.new("TextLabel")
+    local SliderDrag = Instance.new("TextButton")
+    local SliderText = Instance.new("TextLabel")
+    local SliderBack = Instance.new("Frame")
+    local SliderInner = Instance.new("Frame")
+
+    Slider.Name = "Slider"
+    Slider.Parent = ItemContainer
+    Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Slider.BackgroundTransparency = 1.000
+    Slider.Size = UDim2.new(0, 200, 0, 50)
+    Slider.Font = Enum.Font.GothamSemibold
+    Slider.Text = "Slider"
+    Slider.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Slider.TextSize = 11.000
+    
+    SliderDrag.Name = "SliderDrag"
+    SliderDrag.Parent = Slider
+    SliderDrag.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SliderDrag.BackgroundTransparency = 1.000
+    SliderDrag.BorderSizePixel = 0
+    SliderDrag.Position = UDim2.new(0, 0, 0.259073883, 0)
+    SliderDrag.Size = UDim2.new(0, 153, 0, 15)
+    SliderDrag.ZIndex = 2
+    SliderDrag.Font = Enum.Font.SourceSans
+    SliderDrag.Text = ""
+    SliderDrag.TextColor3 = Color3.fromRGB(0, 0, 0)
+    SliderDrag.TextSize = 14.000
+    SliderDrag.TextXAlignment = Enum.TextXAlignment.Left
+    
+    SliderText.Name = "SliderText"
+    SliderText.Parent = SliderDrag
+    SliderText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SliderText.BackgroundTransparency = 1.000
+    SliderText.Position = UDim2.new(0.00653594779, 0, 0.125666305, 0)
+    SliderText.Size = UDim2.new(0, 152, 0, 10)
+    SliderText.ZIndex = 2
+    SliderText.Text = text
+    SliderText.Font = Enum.Font.GothamSemibold
+    SliderText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SliderText.TextSize = 11.000
+    
+    SliderBack.Name = "SliderBack"
+    SliderBack.Parent = SliderDrag
+    SliderBack.BackgroundColor3 = Color3.fromRGB(33, 53, 80)
+    SliderBack.BorderSizePixel = 0
+    SliderBack.Position = UDim2.new(0.00653594779, 0, 0, 0)
+    SliderBack.Size = UDim2.new(0, 150, 0, 14)
+    
+    SliderInner.Name = "SliderInner"
+    SliderInner.Parent = SliderDrag
+    SliderInner.BackgroundColor3 = Color3.fromRGB(44, 83, 130)
+    SliderInner.BorderSizePixel = 0
+    SliderInner.Position = UDim2.new(0.00653594779, 0, 0, 0)
+    SliderInner.Size = UDim2.new(0, 0, 0, 14)
+
+SliderDrag.MouseButton1Down:Connect(function()
+    Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 150) * SliderInner.AbsoluteSize.X) + tonumber(minvalue)) or 0
+    pcall(function()
+        callback(Value)
+        SliderText.Text = text.." / "..Value
+    end)
+    SliderInner.Size = UDim2.new(0, math.clamp(mouse.X - SliderInner.AbsolutePosition.X, 0, 150), 0, 14)
+    moveconnection = mouse.Move:Connect(function()
+        Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 150) * SliderInner.AbsoluteSize.X) + tonumber(minvalue))
+        pcall(function()
+            callback(Value)
+            SliderText.Text = text.." / "..Value
+        end)
+        SliderInner.Size = UDim2.new(0, math.clamp(mouse.X - SliderInner.AbsolutePosition.X, 0, 150), 0, 14)
+    end)
+    releaseconnection = uis.InputEnded:Connect(function(Mouse)
+        if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
+            Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 150) * SliderInner.AbsoluteSize.X) + tonumber(minvalue))
+            pcall(function()
+                callback(Value)
+            end)
+            SliderInner.Size = UDim2.new(0, math.clamp(mouse.X - SliderInner.AbsolutePosition.X, 0, 150), 0, 14)
+            moveconnection:Disconnect()
+            releaseconnection:Disconnect()
+        end
+    end)
+end)
+end
+
 function InsideWindow:CreateDropdown(text,list,callback)
     local BodyYSize = 0
     local IsDropped = false
