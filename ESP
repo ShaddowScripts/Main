@@ -420,6 +420,5 @@ game:GetService("RunService").RenderStepped:Connect(function()
     end
 end)
 
-
-return ESP
 ESP.Players = false
+return ESP
