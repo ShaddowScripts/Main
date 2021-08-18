@@ -1,0 +1,147 @@
+local whitelist = {"Ancient Coin","Gold Crown","Gold Goblet","Gold Jar","Golden Ring","Green Jewel","Perfect Crystal","Red Jewel","Silver Goblet","Silver Jar","Silver Ring"}
+
+local library = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/ShaddowScripts/Main/main/Library2"))()
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/ShaddowScripts/Main/main/ESPLibraryEdit.lua"))();
+
+local main = library:CreateWindow("ESP")
+local farm = library:CreateWindow("Autofarm")
+
+local TweenService = game:GetService('TweenService')
+local VirtualInputManager = game:GetService('VirtualInputManager')
+ESP.Players = false
+
+ESP:AddObjectListener(workspace, {
+    Recursive = true,
+    Type = "Part",
+    PrimaryPart = function(obj)
+       return obj
+    end,
+    Validator = function(obj)
+        if table.find(whitelist,obj.Parent.Name) and obj.Parent:FindFirstChild("PickableItem") and obj.Parent:FindFirstChildWhichIsA("MeshPart") then
+            return true
+        end
+        return false
+    end,
+    CustomName = function(obj)
+       return obj.Parent.Name
+    end,
+    Color = function(obj)
+       return obj.Parent:FindFirstChildWhichIsA("MeshPart").Color
+    end,
+    IsEnabled = "Trinkets"
+})
+
+ESP:AddObjectListener(game:GetService("Workspace").Zones, {
+    Recursive = true,
+    Type = "Part",
+    PrimaryPart = function(obj)
+       return obj
+    end,
+    CustomName = function(obj)
+       return obj.Name
+    end,
+    Color = Color3.new(1,1,1),
+    IsEnabled = "Zones"
+})
+
+ESP:AddObjectListener(game:GetService("Workspace"), {
+    Recursive = true,
+    Type = "Model",
+    PrimaryPart = function(obj)
+       return obj.PrimaryPart
+    end,
+    Validator = function(obj)
+        if obj.Name:find("Oni") and obj:FindFirstChild("Humanoid") and obj:FindFirstChild("Humanoid").Health > 0 then
+            return true
+        end
+        return false
+    end,
+    CustomName = function(obj)
+       return obj.Name
+    end,
+    Color = Color3.new(1,1,0),
+    IsEnabled = "Mob"
+})
+
+ESP:AddObjectListener(game:GetService("Workspace").Npcs, {
+    Recursive = true,
+    Type = "Model",
+    PrimaryPart = function(obj)
+       return obj.PrimaryPart
+    end,
+    CustomName = function(obj)
+       return obj.Name
+    end,
+    Color = Color3.new(0,1,0),
+    IsEnabled = "NPC"
+})
+
+main:CreateCheckbox("Enabled",function(a)
+ESP:Toggle(a)
+end)
+
+main:CreateCheckbox("Trinket",function(a)
+ESP.Trinkets = a
+end)
+
+main:CreateCheckbox("NPC",function(a)
+ESP.NPC = a
+end)
+
+main:CreateCheckbox("Oni",function(a)
+ESP.Mob = a
+end)
+
+main:CreateCheckbox("Zone",function(a)
+ESP.Zones = a
+end)
+
+local trinketfarm
+farm:CreateCheckbox("Trinket Autofarm",function(a)
+trinketfarm = a
+end)
+
+local function nearesttrinket()
+    local nearest, dist = nil, math.huge
+    for _, v in next, workspace:GetChildren() do
+      if (table.find(whitelist,v.Name) and v:FindFirstChild("Part") and v:FindFirstChild('PickableItem')) then
+        local magnitude = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Part.Position).Magnitude
+        if (magnitude < dist) then
+          nearest, dist = v, magnitude
+        end
+      end
+    end
+    return nearest
+  end
+
+  local function Tween(cframe)
+    pcall(function()
+   if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+   local tweeninfo = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - cframe.p).Magnitude / 65
+      TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(tweeninfo, Enum.EasingStyle.Linear), {CFrame=cframe}):Play()
+end
+end)
+end
+
+spawn(function()
+while wait(.2) do
+if trinketfarm then
+Tween(nearesttrinket().Part.CFrame)
+if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - nearesttrinket().Part.Position).Magnitude < 2 and not nearesttrinket():FindFirstChild("Interact",true) then
+nearesttrinket():Destroy()
+end
+end
+end
+end)
+
+spawn(function()
+game:GetService('RunService').Stepped:connect(function()
+if trinketfarm then
+pcall(function()
+if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - nearesttrinket().Part.Position).Magnitude < 5 then
+VirtualInputManager:SendKeyEvent(true, "E", false, game)
+end
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11) end)
+end
+end)
+end)
