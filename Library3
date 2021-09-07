@@ -149,6 +149,138 @@ function InsideTab:Show()
     TextButton_2.BackgroundTransparency = 0
 end
 
+function InsideTab:CreateDropdown(text,list,side,callback)
+    text = text or "New Dropdown"
+    list = list or {}
+    local BodyYSize = 0
+    local IsDropped = false
+    callback = callback or function() end
+    if side == "right" then
+        side = RightSide
+    elseif side == "left" then
+        side = LeftSide
+    else
+    side = LeftSide
+    end
+
+    local dropdown = Instance.new("Frame")
+    local dropdownmain = Instance.new("ImageLabel")
+    local dropdownbuttonmain = Instance.new("ImageLabel")
+    local fix = Instance.new("Frame")
+    local dropbutton = Instance.new("ImageButton")
+    local DropLabel = Instance.new("TextLabel")
+    local dropdowncontainer = Instance.new("Frame")
+    local UIGridLayoutx = Instance.new("UIGridLayout")
+    
+    --Properties:
+    
+    dropdown.Name = "dropdown"
+    dropdown.Parent = side
+    dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    dropdown.BackgroundTransparency = 1.000
+    dropdown.BorderSizePixel = 0
+    dropdown.Size = UDim2.new(0, 100, 0, 100)
+    
+    dropdownmain.Name = "dropdownmain"
+    dropdownmain.Parent = dropdown
+    dropdownmain.BackgroundColor3 = Color3.fromRGB(20, 21, 37)
+    dropdownmain.BackgroundTransparency = 1.000
+    dropdownmain.Size = UDim2.new(0, 134, 0, 17)
+    dropdownmain.Image = "rbxassetid://3570695787"
+    dropdownmain.ImageColor3 = Color3.fromRGB(20, 21, 37)
+    dropdownmain.ScaleType = Enum.ScaleType.Slice
+    dropdownmain.SliceCenter = Rect.new(100, 100, 100, 100)
+    dropdownmain.SliceScale = 0.020
+    
+    dropdownbuttonmain.Name = "dropdownbuttonmain"
+    dropdownbuttonmain.Parent = dropdownmain
+    dropdownbuttonmain.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    dropdownbuttonmain.BackgroundTransparency = 1.000
+    dropdownbuttonmain.Position = UDim2.new(0.947368443, 0, 0, 0)
+    dropdownbuttonmain.Size = UDim2.new(0, 19, 0, 17)
+    dropdownbuttonmain.ZIndex = 2
+    dropdownbuttonmain.Image = "rbxassetid://3570695787"
+    dropdownbuttonmain.ImageColor3 = Color3.fromRGB(255, 178, 0)
+    dropdownbuttonmain.ScaleType = Enum.ScaleType.Slice
+    dropdownbuttonmain.SliceCenter = Rect.new(100, 100, 100, 100)
+    dropdownbuttonmain.SliceScale = 0.030
+    
+    fix.Name = "fix"
+    fix.Parent = dropdownbuttonmain
+    fix.BackgroundColor3 = Color3.fromRGB(255, 178, 0)
+    fix.BorderSizePixel = 0
+    fix.Size = UDim2.new(0, 13, 0, 17)
+    
+    dropbutton.Name = "dropbutton"
+    dropbutton.Parent = dropdownbuttonmain
+    dropbutton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    dropbutton.BackgroundTransparency = 1.000
+    dropbutton.Position = UDim2.new(0, 0, 0.0588235296, 0)
+    dropbutton.Size = UDim2.new(0, 18, 0, 17)
+    dropbutton.ZIndex = 2
+    dropbutton.Image = "https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&assetId=4731371541"
+    
+    DropLabel.Parent = dropdownmain
+    DropLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    DropLabel.BackgroundTransparency = 1.000
+    DropLabel.Position = UDim2.new(0.0373134315, 0, 0, 0)
+    DropLabel.Size = UDim2.new(0, 122, 0, 16)
+    DropLabel.Font = Enum.Font.GothamSemibold
+    DropLabel.Text = text
+    DropLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    DropLabel.TextSize = 11.000
+    DropLabel.TextXAlignment = Enum.TextXAlignment.Left
+    
+    UIGridLayoutx.Parent = dropdowncontainer
+    UIGridLayoutx.SortOrder = Enum.SortOrder.LayoutOrder
+    UIGridLayoutx.CellPadding = UDim2.new(0,0,0,0)
+    UIGridLayoutx.CellSize = UDim2.new(0, 146, 0, 19)
+
+    dropbutton.MouseButton1Click:Connect(function()
+        if not IsDropped then
+            IsDropped = true
+            dropdowncontainer.Visible = true
+            dropbutton.Rotation = 90
+            else
+                IsDropped = false
+                dropdowncontainer.Visible = false
+                dropbutton.Rotation = 0
+            end
+        end)
+
+    for i,v in pairs(list) do
+        BodyYSize = BodyYSize + 19
+        local selectbutton = Instance.new("TextButton")
+
+        selectbutton.Name = "selectbutton"
+        selectbutton.Parent = dropdowncontainer
+        selectbutton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        selectbutton.BackgroundTransparency = 1.000
+        selectbutton.BorderSizePixel = 0
+        selectbutton.Size = UDim2.new(0, 126, 0, 50)
+        selectbutton.Font = Enum.Font.GothamSemibold
+        selectbutton.Text = v
+        selectbutton.TextColor3 = Color3.fromRGB(255, 178, 0)
+        selectbutton.TextSize = 12.000
+        
+        selectbutton.MouseButton1Click:Connect(function()
+            DropLabel.Text = v
+            callback(v)
+            IsDropped = false
+            dropdowncontainer.Visible = false
+            dropbutton.Rotation = 0
+            end)
+        end
+
+        dropdowncontainer.Name = "dropdowncontainer"
+        dropdowncontainer.Parent = dropdownmain
+        dropdowncontainer.BackgroundColor3 = Color3.fromRGB(20, 21, 37)
+        dropdowncontainer.BorderSizePixel = 0
+        dropdowncontainer.Position = UDim2.new(0, 0, 1, 0)
+        dropdowncontainer.Visible = false
+        dropdowncontainer.Size = UDim2.new(0, 146, 0, BodyYSize)
+end
+
 function InsideTab:CreateToggle(text,side,callback)
     text = text or "New Toggle"
     callback = callback or function() end
