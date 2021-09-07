@@ -180,6 +180,7 @@ function InsideTab:CreateDropdown(text,list,side,callback)
     dropdown.BackgroundTransparency = 1.000
     dropdown.BorderSizePixel = 0
     dropdown.Size = UDim2.new(0, 100, 0, 100)
+    dropdown.ZIndex = 3
     
     dropdownmain.Name = "dropdownmain"
     dropdownmain.Parent = dropdown
