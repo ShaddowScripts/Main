@@ -262,6 +262,7 @@ function InsideTab:CreateDropdown(text,list,side,callback)
         selectbutton.Text = v
         selectbutton.TextColor3 = Color3.fromRGB(255, 178, 0)
         selectbutton.TextSize = 12.000
+        selectbutton.ZIndex = 4
         
         selectbutton.MouseButton1Click:Connect(function()
             DropLabel.Text = v
