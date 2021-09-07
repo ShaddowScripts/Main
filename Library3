@@ -1,6 +1,5 @@
 local library = {}
 
-
 function library:CreateWindow(key)
     key = key or "F4"
     for i,v in pairs(game:GetService("CoreGui"):GetChildren()) do
@@ -8,21 +7,20 @@ function library:CreateWindow(key)
         v:Destroy() 
     end
     end
+
+
 local Ring1 = Instance.new("ScreenGui")
 local Frame = Instance.new("ImageLabel")
 local TabContainer = Instance.new("Frame")
 local UIListLayout = Instance.new("UIListLayout")
---local TextButton = Instance.new("TextButton")
---local TextButton_2 = Instance.new("TextButton")
 local UIListLayout_2 = Instance.new("UIListLayout")
---local TextButton_3 = Instance.new("TextButton")
---local Frame_2 = Instance.new("Frame")
 local ItemContainer = Instance.new("Folder")
---local left = Instance.new("Frame")
+local Resizer = Instance.new("Frame")
+local Reposition = Instance.new("Frame")
 
---local UIGridLayout = Instance.new("UIGridLayout")
-
---Properties:
+local UIS = game:GetService("UserInputService")
+local RS = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
 
 Ring1.Name = "Ring1"
 Ring1.Parent = game:WaitForChild("CoreGui")
@@ -34,11 +32,12 @@ game:GetService("UserInputService").InputBegan:Connect(function(i,gmp)
  end)
 
 Frame.Name = "Frame"
-Frame.Active = true
+Frame.Active = false
 Frame.Parent = Ring1
 Frame.BackgroundColor3 = Color3.fromRGB(10, 10, 19)
-Frame.BackgroundTransparency = 1.000
-Frame.BorderSizePixel = 0
+Frame.BackgroundTransparency = 0
+Frame.BorderSizePixel = 2
+Frame.BorderColor3 = Color3.fromRGB(255, 178, 0)
 Frame.Position = UDim2.new(0.389093578, 0, 0.290822417, 0)
 Frame.Size = UDim2.new(0, 372, 0, 455)
 Frame.Image = "rbxassetid://3570695787"
@@ -47,6 +46,122 @@ Frame.ScaleType = Enum.ScaleType.Slice
 Frame.SliceCenter = Rect.new(100, 100, 100, 100)
 Frame.Draggable = true
 Frame.SliceScale = 0.020
+
+Reposition.Name = "Reposition"
+Reposition.Parent = Frame
+Reposition.Active = true
+Reposition.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Reposition.BackgroundTransparency = 1.000
+Reposition.Position = UDim2.new(0, 0, 0.962637365, 0)
+Reposition.Size = UDim2.new(0, 19, 0, 17)
+
+Resizer.Name = "Resize"
+Resizer.Parent = Frame
+Resizer.Active = true
+Resizer.BackgroundColor3 = Color3.fromRGB(10, 10, 19)
+Resizer.BorderColor3 = Color3.fromRGB(10, 10, 19)
+Resizer.BorderSizePixel = 0
+Resizer.BackgroundTransparency = 1
+Resizer.Position = UDim2.new(0.94892472, 0, 0.962637365, 0)
+Resizer.Size = UDim2.new(0, 19, 0, 17)
+
+local function Resize(part, new, _delay)
+	_delay = _delay or 0.5
+	local tweenInfo = TweenInfo.new(_delay, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	local tween = TweenService:Create(part, tweenInfo, new)
+	tween:Play()
+end
+
+local function gMouse()
+	return Vector2.new(UIS:GetMouseLocation().X + 1, UIS:GetMouseLocation().Y - 35)
+end
+
+local minsize = Vector2.new(150, 150)
+local Draggable = true -- Skidded Resizer from Eleruium :_:
+local Entered = false
+		Resizer.MouseEnter:Connect(function()
+			Draggable = false
+			Entered = true
+		end)
+
+		Resizer.MouseLeave:Connect(function()
+			Entered = false
+			Draggable = true
+		end)
+
+        local Held = false
+		UIS.InputBegan:Connect(function(inputObject)
+			if inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+				Held = true
+
+				spawn(function() -- Loop check
+					if Entered and Resizer.Active then
+						while Held and Resizer.Active do
+
+							local mouse_location = gMouse()
+							local x = mouse_location.X - Frame.AbsolutePosition.X
+							local y = mouse_location.Y - Frame.AbsolutePosition.Y
+
+							--
+							if x >= minsize.X and y >= minsize.Y then
+								Resize(Frame, {Size = UDim2.new(0, x, 0, y)}, 0.1)
+							elseif x >= minsize.X then
+								Resize(Frame, {Size = UDim2.new(0, x, 0, minsize.Y)}, 0.1)
+							elseif y >= minsize.Y then
+								Resize(Frame, {Size = UDim2.new(0, minsize.X, 0, y)}, 0.1)
+							else
+								Resize(Frame, {Size = UDim2.new(0, minsize.X, 0, minsize.Y)}, 0.1)
+							end
+
+							RS.Heartbeat:Wait()
+						end
+					end
+				end)
+			end
+		end)
+		UIS.InputEnded:Connect(function(inputObject)
+			if inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+				Held = false
+			end
+		end)
+
+        local gui = Frame
+	
+        local dragging
+        local dragInput
+        local dragStart
+        local startPos
+        
+        local function update(input)
+            local delta = input.Position - dragStart
+            gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+        
+        Reposition.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                dragging = true
+                dragStart = input.Position
+                startPos = gui.Position
+        
+                input.Changed:Connect(function()
+                    if input.UserInputState == Enum.UserInputState.End then
+                        dragging = false
+                    end
+                end)
+            end
+        end)
+        
+        Reposition.InputChanged:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+                dragInput = input
+            end
+        end)
+        
+        UIS.InputChanged:Connect(function(input)
+            if input == dragInput and dragging then
+                update(input)
+            end
+        end)
 
 TabContainer.Name = "Tab-Container"
 TabContainer.Parent = Frame
