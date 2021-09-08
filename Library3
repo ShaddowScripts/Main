@@ -405,10 +405,11 @@ UIS.InputChanged:Connect(function(input)
 end);
 end
 
-function InsideTab:CreateDropdown(text,side,callback)
+function InsideTab:CreateDropdown(text,list,side,callback)
     text = text or "New Dropdown"
     local BodyYSize = 0
     local dropdowntable = {}
+    list = list or {}
     local IsDropped = false
     callback = callback or function() end
     if side == "right" then
@@ -504,35 +505,62 @@ function InsideTab:CreateDropdown(text,side,callback)
             end
         end)
 
-function dropdowntable:Add(v)
-    local objects = {}
-        BodyYSize = BodyYSize + 19
-        local selectbutton = Instance.new("TextButton")
-
-        selectbutton.Name = "selectbutton"
-        selectbutton.Parent = dropdowncontainer
-        selectbutton.BackgroundColor3 = Color3.fromRGB(20, 21, 37)
-        selectbutton.BackgroundTransparency = 0
-        selectbutton.BorderSizePixel = 0
-        selectbutton.Size = UDim2.new(0, 126, 0, 50)
-        selectbutton.Font = Enum.Font.GothamSemibold
-        selectbutton.Text = v
-        selectbutton.TextColor3 = Color3.fromRGB(255, 178, 0)
-        selectbutton.TextSize = 12.000
-        selectbutton.ZIndex = 4
-        
-        selectbutton.MouseButton1Click:Connect(function()
-            DropLabel.Text = v
-            callback(v)
-            IsDropped = false
-            dropdowncontainer.Visible = false
-            dropbutton.Rotation = 0
-            end)
-
-            function objects:Remove()
-                selectbutton:Destroy()
+        for i,v in pairs(list) do
+            BodyYSize = BodyYSize + 19
+            local selectbutton = Instance.new("TextButton")
+    
+            selectbutton.Name = "selectbutton"
+            selectbutton.Parent = dropdowncontainer
+            selectbutton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            selectbutton.BackgroundTransparency = 1.000
+            selectbutton.BorderSizePixel = 0
+            selectbutton.Size = UDim2.new(0, 126, 0, 50)
+            selectbutton.Font = Enum.Font.GothamSemibold
+            selectbutton.Text = v
+            selectbutton.TextColor3 = Color3.fromRGB(255, 178, 0)
+            selectbutton.TextSize = 12.000
+            selectbutton.ZIndex = 4
+            
+            selectbutton.MouseButton1Click:Connect(function()
+                DropLabel.Text = v
+                callback(v)
+                IsDropped = false
+                dropdowncontainer.Visible = false
+                dropbutton.Rotation = 0
+                end)
             end
-            return selectbutton,objects
+
+        function dropdowntable:Refresh(r)
+            r = r or {}
+for _,d in pairs(dropdowncontainer:GetChildren()) do
+    if d.Name ~= "UIGridLayout" then
+d:Destroy()
+end
+end
+for i,v in pairs(r) do
+    local selectbutton = Instance.new("TextButton")
+
+    selectbutton.Name = "selectbutton"
+    selectbutton.Parent = dropdowncontainer
+    selectbutton.BackgroundColor3 = Color3.fromRGB(20, 21, 37)
+    selectbutton.BackgroundTransparency = 0
+    selectbutton.BorderSizePixel = 0
+    selectbutton.Size = UDim2.new(0, 126, 0, 50)
+    selectbutton.Font = Enum.Font.GothamSemibold
+    selectbutton.Text = v
+    selectbutton.TextColor3 = Color3.fromRGB(255, 178, 0)
+    selectbutton.TextSize = 12.000
+    selectbutton.ZIndex = 4
+    
+    selectbutton.MouseButton1Click:Connect(function()
+        DropLabel.Text = v
+        callback(v)
+        IsDropped = false
+        dropdowncontainer.Visible = false
+        dropbutton.Rotation = 0
+        end)
+end
+dropdowncontainer.Size = UDim2.new(0,146,0,#dropdowncontainer:GetChildren() * 19 - 19)
         end
 
         dropdowncontainer.Name = "dropdowncontainer"
