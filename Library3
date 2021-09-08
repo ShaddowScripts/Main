@@ -264,6 +264,47 @@ function InsideTab:Show()
     TextButton_2.BackgroundTransparency = 0
 end
 
+function InsideTab:CreateButton(text,side,callback)
+    text = text or "New Button"
+    callback = callback or function() end
+
+    if side == "right" then
+        side = RightSide
+    elseif side == "left" then
+        side = LeftSide
+    else
+    side = LeftSide
+    end
+
+    local button = Instance.new("Frame")
+    local buttonclick = Instance.new("TextButton")
+    local UICorner = Instance.new("UICorner")
+
+    button.Name = "button"
+    button.Parent = side
+    button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    button.BackgroundTransparency = 1.000
+    button.Size = UDim2.new(0, 100, 0, 100)
+
+    buttonclick.Name = "buttonclick"
+    buttonclick.Parent = button
+    buttonclick.BackgroundColor3 = Color3.fromRGB(255, 178, 0)
+    buttonclick.Size = UDim2.new(0, 100, 0, 17)
+    buttonclick.Font = Enum.Font.GothamSemibold
+    buttonclick.Text = text
+    buttonclick.TextColor3 = Color3.fromRGB(255, 255, 255)
+    buttonclick.TextSize = 11.000
+
+    UICorner.CornerRadius = UDim.new(0, 1)
+    UICorner.Parent = buttonclick
+
+    buttonclick.Size = UDim2.new(0,buttonclick.TextBounds.X + 4,0,17)
+
+    buttonclick.MouseButton1Click:Connect(function()
+        pcall(callback)
+    end)
+end
+
 function InsideTab:CreateDropdown(text,list,side,callback)
     text = text or "New Dropdown"
     list = list or {}
