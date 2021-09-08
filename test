@@ -1,0 +1,662 @@
+local library = {}
+
+function library:CreateWindow(key)
+    key = key or "F4"
+    for i,v in pairs(game:GetService("CoreGui"):GetChildren()) do
+       if v.Name == "Ring1" then
+        v:Destroy() 
+    end
+    end
+
+
+local Ring1 = Instance.new("ScreenGui")
+local Frame = Instance.new("ImageLabel")
+local TabContainer = Instance.new("Frame")
+local UIListLayout = Instance.new("UIListLayout")
+local UIListLayout_2 = Instance.new("UIListLayout")
+local ItemContainer = Instance.new("Folder")
+local Resizer = Instance.new("Frame")
+local Reposition = Instance.new("Frame")
+
+local UIS = game:GetService("UserInputService")
+local RS = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+
+Ring1.Name = "Ring1"
+Ring1.Parent = game:WaitForChild("CoreGui")
+
+UIS.InputBegan:Connect(function(i,gmp)
+    if i.KeyCode == Enum.KeyCode[key] and not gmp then
+        Ring1.Enabled = not Ring1.Enabled
+    end
+ end)
+
+Frame.Name = "Frame"
+Frame.ClipsDescendants = true
+Frame.Active = false
+Frame.Parent = Ring1
+Frame.BackgroundColor3 = Color3.fromRGB(10, 10, 19)
+Frame.BackgroundTransparency = 0
+Frame.BorderSizePixel = 2
+Frame.BorderColor3 = Color3.fromRGB(255, 178, 0)
+Frame.Position = UDim2.new(0.389093578, 0, 0.290822417, 0)
+Frame.Size = UDim2.new(0, 372, 0, 455)
+Frame.Image = "rbxassetid://3570695787"
+Frame.ImageColor3 = Color3.fromRGB(10, 10, 19)
+Frame.ScaleType = Enum.ScaleType.Slice
+Frame.SliceCenter = Rect.new(100, 100, 100, 100)
+Frame.Draggable = true
+Frame.SliceScale = 0.020
+
+Reposition.Name = "Reposition"
+Reposition.Parent = Frame
+Reposition.Active = true
+Reposition.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Reposition.BackgroundTransparency = 1.000
+Reposition.Position = UDim2.new(0, 0, 0.962637365, 0)
+Reposition.Size = UDim2.new(0, 19, 0, 17)
+
+Resizer.Name = "Resize"
+Resizer.Parent = Frame
+Resizer.Active = true
+Resizer.BackgroundColor3 = Color3.fromRGB(10, 10, 19)
+Resizer.BorderColor3 = Color3.fromRGB(10, 10, 19)
+Resizer.BorderSizePixel = 0
+Resizer.BackgroundTransparency = 1
+Resizer.Position = UDim2.new(0.94892472, 0, 0.962637365, 0)
+Resizer.Size = UDim2.new(0, 19, 0, 17)
+
+local function Resize(part, new, _delay)
+	_delay = _delay or 0.5
+	local tweenInfo = TweenInfo.new(_delay, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	local tween = TweenService:Create(part, tweenInfo, new)
+	tween:Play()
+end
+
+local function gMouse()
+	return Vector2.new(UIS:GetMouseLocation().X + 1, UIS:GetMouseLocation().Y - 35)
+end
+
+local minsize = Vector2.new(150, 150)
+local Draggable = true -- Skidded Resizer from Eleruium :_:
+local Entered = false
+		Resizer.MouseEnter:Connect(function()
+			Draggable = false
+			Entered = true
+		end)
+
+		Resizer.MouseLeave:Connect(function()
+			Entered = false
+			Draggable = true
+		end)
+
+        local Held = false
+		UIS.InputBegan:Connect(function(inputObject)
+			if inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+				Held = true
+
+				spawn(function() -- Loop check
+					if Entered and Resizer.Active then
+						while Held and Resizer.Active do
+
+							local mouse_location = gMouse()
+							local x = mouse_location.X - Frame.AbsolutePosition.X
+							local y = mouse_location.Y - Frame.AbsolutePosition.Y
+
+							--
+							if x >= minsize.X and y >= minsize.Y then
+								Resize(Frame, {Size = UDim2.new(0, x, 0, y)}, 0.1)
+							elseif x >= minsize.X then
+								Resize(Frame, {Size = UDim2.new(0, x, 0, minsize.Y)}, 0.1)
+							elseif y >= minsize.Y then
+								Resize(Frame, {Size = UDim2.new(0, minsize.X, 0, y)}, 0.1)
+							else
+								Resize(Frame, {Size = UDim2.new(0, minsize.X, 0, minsize.Y)}, 0.1)
+							end
+
+							RS.Heartbeat:Wait()
+						end
+					end
+				end)
+			end
+		end)
+		UIS.InputEnded:Connect(function(inputObject)
+			if inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+				Held = false
+			end
+		end)
+
+        local gui = Frame
+	
+        local draggingf
+        local dragInput
+        local dragStart
+        local startPos
+        
+        local function update(input)
+            local delta = input.Position - dragStart
+            gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+        
+        Reposition.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                draggingf = true
+                dragStart = input.Position
+                startPos = gui.Position
+        
+                input.Changed:Connect(function()
+                    if input.UserInputState == Enum.UserInputState.End then
+                        draggingf = false
+                    end
+                end)
+            end
+        end)
+        
+        Reposition.InputChanged:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+                dragInput = input
+            end
+        end)
+        
+        UIS.InputChanged:Connect(function(input)
+            if input == dragInput and draggingf then
+                update(input)
+            end
+        end)
+
+TabContainer.Name = "Tab-Container"
+TabContainer.Parent = Frame
+TabContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TabContainer.BackgroundTransparency = 1.000
+TabContainer.BorderSizePixel = 0
+TabContainer.Size = UDim2.new(0, 373, 0, 30)
+
+UIListLayout.Parent = TabContainer
+UIListLayout.FillDirection = Enum.FillDirection.Horizontal
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+UIListLayout_2.Parent = SubTabContainer
+UIListLayout_2.FillDirection = Enum.FillDirection.Horizontal
+UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
+
+
+
+ItemContainer.Name = "ItemContainer"
+ItemContainer.Parent = Frame
+
+local InsideLibrary = {}
+
+function InsideLibrary:CreateTab(name)
+    name = name or "Tab"
+local TextButton_2 = Instance.new("TextButton")
+local left = Instance.new("Frame")
+local LeftSide = Instance.new("Frame")
+local UIGridLayout_1 = Instance.new("UIGridLayout")
+local RightSide = Instance.new("Frame")
+local UIGridLayout_2 = Instance.new("UIGridLayout")
+
+TextButton_2.Parent = TabContainer
+TextButton_2.BackgroundColor3 = Color3.fromRGB(20, 21, 37)
+TextButton_2.BorderSizePixel = 0
+TextButton_2.BackgroundTransparency = 1
+TextButton_2.Size = UDim2.new(0, 62, 0, 30)
+TextButton_2.AutoButtonColor = false
+TextButton_2.Font = Enum.Font.GothamSemibold
+TextButton_2.Text = name
+TextButton_2.TextColor3 = Color3.fromRGB(113, 113, 116)
+TextButton_2.TextSize = 10.000
+TextButton_2.TextWrapped = true
+
+left.Name = "left"
+left.Parent = ItemContainer
+left.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+left.BackgroundTransparency = 1.000
+left.BorderSizePixel = 0
+left.Position = UDim2.new(0.0268817209, 0, 0.0879120901, 0)
+left.Size = UDim2.new(0, 354, 0, 415)
+
+LeftSide.Name = "LeftSide"
+LeftSide.Parent = left
+LeftSide.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+LeftSide.BackgroundTransparency = 1.000
+LeftSide.BorderSizePixel = 0
+LeftSide.Size = UDim2.new(0, 177, 0, 409)
+
+UIGridLayout_1.Parent = LeftSide
+UIGridLayout_1.SortOrder = Enum.SortOrder.LayoutOrder
+UIGridLayout_1.CellSize = UDim2.new(0, 100, 0, 17)
+
+RightSide.Name = "RightSide"
+RightSide.Parent = left
+RightSide.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+RightSide.BackgroundTransparency = 1.000
+RightSide.BorderSizePixel = 0
+RightSide.Position = UDim2.new(0.494350284, 0, 0, 0)
+RightSide.Size = UDim2.new(0, 177, 0, 409)
+
+UIGridLayout_2.Parent = RightSide
+UIGridLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
+UIGridLayout_2.CellSize = UDim2.new(0, 100, 0, 17)
+
+TextButton_2.MouseButton1Click:Connect(function()
+    for i,v in next,ItemContainer:GetChildren() do
+    v.Visible = false
+    end
+    for i,t in next, TabContainer:GetChildren() do
+    if t.ClassName ~= "UIListLayout" then
+    t.TextColor3 = Color3.fromRGB(113, 113, 116)
+    t.BackgroundTransparency = 1
+    end
+    TextButton_2.TextColor3 = Color3.fromRGB(255, 178, 0)
+    TextButton_2.BackgroundTransparency = 0
+    end
+    left.Visible = true
+    end)
+
+    
+local InsideTab = {}
+
+function InsideTab:Show()
+    for i,v in next,ItemContainer:GetChildren() do
+        v.Visible = false
+        end
+        left.Visible = true
+    TextButton_2.TextColor3 = Color3.fromRGB(255, 178, 0)
+    TextButton_2.BackgroundTransparency = 0
+end
+
+function InsideTab:CreateButton(text,side,callback)
+    text = text or "New Button"
+    callback = callback or function() end
+
+    if side == "right" then
+        side = RightSide
+    elseif side == "left" then
+        side = LeftSide
+    else
+    side = LeftSide
+    end
+
+    local button = Instance.new("Frame")
+    local buttonclick = Instance.new("TextButton")
+    local UICorner = Instance.new("UICorner")
+
+    button.Name = "button"
+    button.Parent = side
+    button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    button.BackgroundTransparency = 1.000
+    button.Size = UDim2.new(0, 100, 0, 100)
+
+    buttonclick.Name = "buttonclick"
+    buttonclick.Parent = button
+    buttonclick.BackgroundColor3 = Color3.fromRGB(255, 178, 0)
+    buttonclick.Size = UDim2.new(0, 100, 0, 17)
+    buttonclick.Font = Enum.Font.GothamSemibold
+    buttonclick.Text = text
+    buttonclick.TextColor3 = Color3.fromRGB(255, 255, 255)
+    buttonclick.TextSize = 11.000
+
+    UICorner.CornerRadius = UDim.new(0, 1)
+    UICorner.Parent = buttonclick
+
+    buttonclick.Size = UDim2.new(0,buttonclick.TextBounds.X + 4,0,17)
+
+    buttonclick.MouseButton1Click:Connect(function()
+        pcall(callback)
+    end)
+end
+
+function InsideTab:CreateSlider(text,min,max,start,side,callback)
+    text = text or "Slider"
+    min = min or 0
+    max = max or 100
+    start = start or 5
+    callback = callback or function() end
+    if side == "right" then
+        side = RightSide
+    elseif side == "left" then
+        side = LeftSide
+    else
+    side = LeftSide
+    end
+
+    local dragging = false
+
+    local Slider = Instance.new("Frame")
+    local SliderMain = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local Bar = Instance.new("Frame")
+local UICorner_2 = Instance.new("UICorner")
+local SliderText = Instance.new("TextLabel")
+
+
+Slider.Name = "Slider"
+Slider.Parent = side
+Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Slider.BackgroundTransparency = 1.000
+Slider.BorderSizePixel = 0
+Slider.Size = UDim2.new(0, 100, 0, 100)
+
+SliderMain.Name = "SliderMain"
+SliderMain.Parent = Slider
+SliderMain.Active = true
+SliderMain.BackgroundColor3 = Color3.fromRGB(20, 21, 37)
+SliderMain.Size = UDim2.new(0, 145, 0, 17)
+
+UICorner.CornerRadius = UDim.new(0, 2)
+UICorner.Parent = SliderMain
+
+Bar.Name = "Bar"
+Bar.Parent = SliderMain
+Bar.BackgroundColor3 = Color3.fromRGB(255, 178, 0)
+Bar.BorderSizePixel = 0
+Bar.Size = UDim2.new(0, 0, 0, 17)
+
+UICorner_2.CornerRadius = UDim.new(0, 2)
+UICorner_2.Parent = Bar
+
+SliderText.Name = "SliderText"
+SliderText.Parent = SliderMain
+SliderText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+SliderText.BackgroundTransparency = 1.000
+SliderText.Size = UDim2.new(0, 145, 0, 17)
+SliderText.Text = text
+SliderText.ZIndex = 3
+SliderText.Font = Enum.Font.GothamSemibold
+SliderText.TextColor3 = Color3.fromRGB(255, 255, 255)
+SliderText.TextSize = 11.000
+
+local sliderIndicatorFrame = SliderText;
+SliderText.Text = text..tostring(start and math.floor((start / max) * (max - min) + min) or 0);
+
+local slidingFrame = Bar;
+slidingFrame.Size = UDim2.new((start or 0) / max, 0, 1, 0);
+
+if start then
+    local callbackValue = math.floor((start / max) * (max - min) + min);
+    callback(callbackValue);
+end;
+
+local function slide(input)
+    local pos = UDim2.new(math.clamp((input.Position.X - sliderIndicatorFrame.AbsolutePosition.X) / sliderIndicatorFrame.AbsoluteSize.X, 0, 1), 0, 1, 0);
+    slidingFrame:TweenSize(pos, Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.1, true);
+    local value = math.floor(((pos.X.Scale * max) / max) * (max - min) + min);
+    sliderIndicatorFrame.Text = text..tostring(value);
+    callback(value);
+end;
+
+sliderIndicatorFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        slide(input);
+        dragging = true;
+    end;
+end);
+
+sliderIndicatorFrame.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false;
+    end;
+end);
+
+UIS.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        slide(input);
+    end;
+end);
+end
+
+function InsideTab:CreateDropdown(text,side,callback)
+    text = text or "New Dropdown"
+    local BodyYSize = 0
+    local dropdowntable = {}
+    local IsDropped = false
+    callback = callback or function() end
+    if side == "right" then
+        side = RightSide
+    elseif side == "left" then
+        side = LeftSide
+    else
+    side = LeftSide
+    end
+
+    local dropdown = Instance.new("Frame")
+    local dropdownmain = Instance.new("ImageLabel")
+    local dropdownbuttonmain = Instance.new("ImageLabel")
+    local fix = Instance.new("Frame")
+    local dropbutton = Instance.new("ImageButton")
+    local DropLabel = Instance.new("TextLabel")
+    local dropdowncontainer = Instance.new("Frame")
+    local UIGridLayoutx = Instance.new("UIGridLayout")
+    
+    --Properties:
+    
+    dropdown.Name = "dropdown"
+    dropdown.Parent = side
+    dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    dropdown.BackgroundTransparency = 1.000
+    dropdown.BorderSizePixel = 0
+    dropdown.Size = UDim2.new(0, 100, 0, 100)
+    
+    dropdownmain.Name = "dropdownmain"
+    dropdownmain.Parent = dropdown
+    dropdownmain.BackgroundColor3 = Color3.fromRGB(20, 21, 37)
+    dropdownmain.BackgroundTransparency = 1.000
+    dropdownmain.Size = UDim2.new(0, 134, 0, 17)
+    dropdownmain.Image = "rbxassetid://3570695787"
+    dropdownmain.ImageColor3 = Color3.fromRGB(20, 21, 37)
+    dropdownmain.ScaleType = Enum.ScaleType.Slice
+    dropdownmain.SliceCenter = Rect.new(100, 100, 100, 100)
+    dropdownmain.SliceScale = 0.020
+    
+    dropdownbuttonmain.Name = "dropdownbuttonmain"
+    dropdownbuttonmain.Parent = dropdownmain
+    dropdownbuttonmain.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    dropdownbuttonmain.BackgroundTransparency = 1.000
+    dropdownbuttonmain.Position = UDim2.new(0.947368443, 0, 0, 0)
+    dropdownbuttonmain.Size = UDim2.new(0, 19, 0, 17)
+    dropdownbuttonmain.ZIndex = 2
+    dropdownbuttonmain.Image = "rbxassetid://3570695787"
+    dropdownbuttonmain.ImageColor3 = Color3.fromRGB(255, 178, 0)
+    dropdownbuttonmain.ScaleType = Enum.ScaleType.Slice
+    dropdownbuttonmain.SliceCenter = Rect.new(100, 100, 100, 100)
+    dropdownbuttonmain.SliceScale = 0.030
+    
+    fix.Name = "fix"
+    fix.Parent = dropdownbuttonmain
+    fix.BackgroundColor3 = Color3.fromRGB(255, 178, 0)
+    fix.BorderSizePixel = 0
+    fix.Size = UDim2.new(0, 13, 0, 17)
+    
+    dropbutton.Name = "dropbutton"
+    dropbutton.Parent = dropdownbuttonmain
+    dropbutton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    dropbutton.BackgroundTransparency = 1.000
+    dropbutton.Position = UDim2.new(0, 0, 0.0588235296, 0)
+    dropbutton.Size = UDim2.new(0, 18, 0, 17)
+    dropbutton.ZIndex = 2
+    dropbutton.Image = "https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&assetId=4731371541"
+    
+    DropLabel.Parent = dropdownmain
+    DropLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    DropLabel.BackgroundTransparency = 1.000
+    DropLabel.Position = UDim2.new(0.0373134315, 0, 0, 0)
+    DropLabel.Size = UDim2.new(0, 122, 0, 16)
+    DropLabel.Font = Enum.Font.GothamSemibold
+    DropLabel.Text = text
+    DropLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    DropLabel.TextSize = 11.000
+    DropLabel.TextXAlignment = Enum.TextXAlignment.Left
+    
+    UIGridLayoutx.Parent = dropdowncontainer
+    UIGridLayoutx.SortOrder = Enum.SortOrder.LayoutOrder
+    UIGridLayoutx.CellPadding = UDim2.new(0,0,0,0)
+    UIGridLayoutx.CellSize = UDim2.new(0, 146, 0, 19)
+
+    dropbutton.MouseButton1Click:Connect(function()
+        if not IsDropped then
+            IsDropped = true
+            dropdowncontainer.Visible = true
+            dropbutton.Rotation = 90
+            else
+                IsDropped = false
+                dropdowncontainer.Visible = false
+                dropbutton.Rotation = 0
+            end
+        end)
+
+for i,v in pairs(list) do
+        BodyYSize = BodyYSize + 19
+        local selectbutton = Instance.new("TextButton")
+
+        selectbutton.Name = "selectbutton"
+        selectbutton.Parent = dropdowncontainer
+        selectbutton.BackgroundColor3 = Color3.fromRGB(20, 21, 37)
+        selectbutton.BackgroundTransparency = 0
+        selectbutton.BorderSizePixel = 0
+        selectbutton.Size = UDim2.new(0, 126, 0, 50)
+        selectbutton.Font = Enum.Font.GothamSemibold
+        selectbutton.Text = v
+        selectbutton.TextColor3 = Color3.fromRGB(255, 178, 0)
+        selectbutton.TextSize = 12.000
+        selectbutton.ZIndex = 4
+        
+        selectbutton.MouseButton1Click:Connect(function()
+            DropLabel.Text = v
+            callback(v)
+            IsDropped = false
+            dropdowncontainer.Visible = false
+            dropbutton.Rotation = 0
+            end)
+        end
+
+        function dropdowntable:Refresh(r)
+            r = r or {}
+for _,d in pairs(dropdowncontainer:GetChildren()) do
+d:Destroy()
+dropdowncontainer.Size = UDim2.new(0,146,0,dropdowncontainer.Size.Y - 19)
+end
+for i,v in pairs(r) do
+    local selectbutton = Instance.new("TextButton")
+
+    selectbutton.Name = "selectbutton"
+    selectbutton.Parent = dropdowncontainer
+    selectbutton.BackgroundColor3 = Color3.fromRGB(20, 21, 37)
+    selectbutton.BackgroundTransparency = 0
+    selectbutton.BorderSizePixel = 0
+    selectbutton.Size = UDim2.new(0, 126, 0, 50)
+    selectbutton.Font = Enum.Font.GothamSemibold
+    selectbutton.Text = v
+    selectbutton.TextColor3 = Color3.fromRGB(255, 178, 0)
+    selectbutton.TextSize = 12.000
+    selectbutton.ZIndex = 4
+    
+    selectbutton.MouseButton1Click:Connect(function()
+        DropLabel.Text = r
+        callback(v)
+        IsDropped = false
+        dropdowncontainer.Visible = false
+        dropbutton.Rotation = 0
+        end)
+end
+        end
+
+        dropdowncontainer.Name = "dropdowncontainer"
+        dropdowncontainer.Parent = dropdownmain
+        dropdowncontainer.BackgroundColor3 = Color3.fromRGB(20, 21, 37)
+        dropdowncontainer.BorderSizePixel = 0
+        dropdowncontainer.Position = UDim2.new(0, 0, 1, 0)
+        dropdowncontainer.Visible = false
+        dropdowncontainer.Size = UDim2.new(0, 146, 0, BodyYSize)
+        dropdowncontainer.ZIndex = 3
+        return dropdowntable
+end
+
+function InsideTab:CreateToggle(text,side,callback)
+    text = text or "New Toggle"
+    callback = callback or function() end
+    if side == "right" then
+        side = RightSide
+    elseif side == "left" then
+        side = LeftSide
+    else
+    side = LeftSide
+    end
+
+local toggle = Instance.new("Frame")
+local ToggleMain = Instance.new("ImageLabel")
+local ToggleButton = Instance.new("TextButton")
+local ToggleImage = Instance.new("ImageLabel")
+local ToggleText = Instance.new("TextLabel")
+
+toggle.Name = "toggle"
+toggle.Parent = side
+toggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+toggle.BackgroundTransparency = 1.000
+toggle.BorderSizePixel = 0
+toggle.Size = UDim2.new(0, 100, 0, 100)
+
+ToggleMain.Name = "ToggleMain"
+ToggleMain.Parent = toggle
+ToggleMain.BackgroundColor3 = Color3.fromRGB(20, 21, 37)
+ToggleMain.BackgroundTransparency = 1.000
+ToggleMain.BorderSizePixel = 0
+ToggleMain.Position = UDim2.new(-0.0199999996, 0, 0, 0)
+ToggleMain.Size = UDim2.new(0, 18, 0, 17)
+ToggleMain.Image = "rbxassetid://3570695787"
+ToggleMain.ImageColor3 = Color3.fromRGB(20, 21, 37)
+ToggleMain.ScaleType = Enum.ScaleType.Slice
+ToggleMain.SliceCenter = Rect.new(100, 100, 100, 100)
+ToggleMain.SliceScale = 0.020
+
+ToggleButton.Name = "ToggleButton"
+ToggleButton.Parent = ToggleMain
+ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleButton.BackgroundTransparency = 1.000
+ToggleButton.Position = UDim2.new(0.111111112, 0, 0, 0)
+ToggleButton.Size = UDim2.new(0, 16, 0, 15)
+ToggleButton.Font = Enum.Font.SourceSans
+ToggleButton.Text = ""
+ToggleButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+ToggleButton.TextSize = 14.000
+
+ToggleImage.Name = "ToggleImage"
+ToggleImage.Parent = ToggleButton
+ToggleImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleImage.BackgroundTransparency = 1.000
+ToggleImage.Position = UDim2.new(0, 0, 0.100000001, 0)
+ToggleImage.Size = UDim2.new(0, 15, 0, 15)
+ToggleImage.Visible = false
+ToggleImage.Image = "https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&assetId=5226924994"
+ToggleImage.ImageColor3 = Color3.fromRGB(255, 178, 0)
+
+ToggleText.Name = "ToggleText"
+ToggleText.Parent = toggle
+ToggleText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleText.BackgroundTransparency = 1.000
+ToggleText.BorderColor3 = Color3.fromRGB(27, 42, 53)
+ToggleText.Position = UDim2.new(0.219999999, 0, 0, 0)
+ToggleText.Size = UDim2.new(0, 78, 0, 16)
+ToggleText.Font = Enum.Font.GothamSemibold
+ToggleText.Text = text
+ToggleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleText.TextSize = 11.000
+ToggleText.TextXAlignment = Enum.TextXAlignment.Left
+
+local enabled = false
+function trigger()
+enabled = not enabled
+pcall(callback,enabled)
+if enabled then
+    ToggleImage.Visible = true
+else
+    ToggleImage.Visible = false
+end
+end
+
+ToggleButton.MouseButton1Click:Connect(trigger)
+end
+return InsideTab
+end
+return InsideLibrary
+end
+return library
