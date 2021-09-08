@@ -1,0 +1,119 @@
+local library = loadstring(syn.request({Url = "https://raw.githubusercontent.com/ShaddowScripts/Main/main/Library3", Method = "GET"}).Body)()
+
+local window = library:CreateWindow("F4")
+local tab = window:CreateTab("Main")
+
+local TweenService = game:GetService('TweenService')
+
+local nfarm
+tab:CreateToggle("NPC-Autofarm","left",function(a)
+   nfarm = a
+end)
+
+local npc
+tab:CreateDropdown("Select NPC",{"Twig","Shade Golem","Corroded"},"left",function(a)
+   npc = a
+end)
+
+local hidename
+tab:CreateToggle("Hide-Name","right",function(a)
+    hidename = a
+end)
+
+local trinket
+tab:CreateToggle("Trinket-Autofarm","right",function(a)
+    trinket = a
+end)
+
+local mode
+tab:CreateDropdown("Autofarm Mode",{"Normal","Below","Above"},"right",function(a)
+    if a == "Below" then
+        mode = CFrame.new(0,-5,0) * CFrame.Angles(math.rad(90),0,0)
+    elseif a == "Above" then
+        mode = CFrame.new(0,5,0) * CFrame.Angles(math.rad(-90),0,0)
+        elseif a == "Normal" then
+        mode = CFrame.new(0,0,4)
+        end
+end)
+
+local function nearestmob()
+  local nearest, dist = nil, math.huge
+  for _, v in next, workspace.Live:GetChildren() do
+    if (v.Name == npc and v:FindFirstChild("NPCData") and v:FindFirstChild('HumanoidRootPart') and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0) then
+      local magnitude = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude
+      if (magnitude < dist) then
+        nearest, dist = v, magnitude
+      end
+    end
+  end
+  return nearest
+end
+
+local function nearesttrinket()
+  local nearest, dist = nil, math.huge
+  for _, v in next, game:GetService("Workspace").AmbientAreas:GetDescendants() do
+    if (v:IsA("Model") and v:FindFirstChild("ClickDetector") and v:FindFirstChild('Handle')) then
+      local magnitude = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Handle.Position).Magnitude
+      if (magnitude < dist) then
+        nearest, dist = v, magnitude
+      end
+    end
+  end
+  return nearest
+end
+
+local function teleport(cframe)
+     pcall(function()
+    local player = game.Players.LocalPlayer 
+    local character = player.Character 
+    local humroot = character:FindFirstChild("HumanoidRootPart")
+    if character and character:FindFirstChild("HumanoidRootPart") then
+    local tweeninfo = (character.HumanoidRootPart.Position - cframe.p).Magnitude / 85
+       if not trinket then
+       TweenService:Create(humroot, TweenInfo.new(tweeninfo, Enum.EasingStyle.Linear), {CFrame=cframe * mode}):Play()
+       else
+        TweenService:Create(humroot, TweenInfo.new(tweeninfo, Enum.EasingStyle.Linear), {CFrame=cframe}):Play()
+        end
+end
+end)
+end
+
+spawn(function()
+    game:GetService('RunService').Stepped:connect(function()
+        pcall(function()
+            if nfarm then
+           if game.Players.LocalPlayer.Character.Head:FindFirstChild("NameGui") and hidename then
+               game.Players.LocalPlayer.Character.Head:FindFirstChild("NameGui"):Destroy()
+            end
+            teleport(nearestmob().HumanoidRootPart.CFrame)
+            if game.Players.LocalPlayer.Backpack:FindFirstChildWhichIsA("Tool") then
+                game.Players.LocalPlayer.Backpack:FindFirstChildWhichIsA("Tool").Parent = game.Players.LocalPlayer.Character
+            end
+            if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Tool") then
+                game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Tool").swordLocal.swordEvent:FireServer("M1")
+            end
+            end
+        end)
+    end)
+end)
+
+spawn(function()
+    game:GetService('RunService').Stepped:connect(function()
+        if nfarm or trinket then
+            pcall(function() game.Players.LocalPlayer.Character.Humanoid:ChangeState(11) end)
+        end
+    end)
+end)
+spawn(function()
+    while wait() do
+        if trinket then
+            mode = "Normal"
+            teleport(nearesttrinket().Handle.CFrame)
+            if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - nearesttrinket().Handle.Position).Magnitude < 5 then
+            fireclickdetector(nearesttrinket().ClickDetector)
+            end
+        end
+    end
+end)
+
+tab:Show()
