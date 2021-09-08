@@ -32,6 +32,7 @@ UIS.InputBegan:Connect(function(i,gmp)
  end)
 
 Frame.Name = "Frame"
+Frame.ClipsDescendants = true
 Frame.Active = false
 Frame.Parent = Ring1
 Frame.BackgroundColor3 = Color3.fromRGB(10, 10, 19)
@@ -404,10 +405,10 @@ UIS.InputChanged:Connect(function(input)
 end);
 end
 
-function InsideTab:CreateDropdown(text,list,side,callback)
+function InsideTab:CreateDropdown(text,side,callback)
     text = text or "New Dropdown"
-    list = list or {}
     local BodyYSize = 0
+    local dropdowntable = {}
     local IsDropped = false
     callback = callback or function() end
     if side == "right" then
@@ -503,14 +504,15 @@ function InsideTab:CreateDropdown(text,list,side,callback)
             end
         end)
 
-    for i,v in pairs(list) do
+function dropdowntable:Add(v)
+    local objects = {}
         BodyYSize = BodyYSize + 19
         local selectbutton = Instance.new("TextButton")
 
         selectbutton.Name = "selectbutton"
         selectbutton.Parent = dropdowncontainer
-        selectbutton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        selectbutton.BackgroundTransparency = 1.000
+        selectbutton.BackgroundColor3 = Color3.fromRGB(20, 21, 37)
+        selectbutton.BackgroundTransparency = 0
         selectbutton.BorderSizePixel = 0
         selectbutton.Size = UDim2.new(0, 126, 0, 50)
         selectbutton.Font = Enum.Font.GothamSemibold
@@ -526,6 +528,11 @@ function InsideTab:CreateDropdown(text,list,side,callback)
             dropdowncontainer.Visible = false
             dropbutton.Rotation = 0
             end)
+
+            function objects:Remove()
+                selectbutton:Destroy()
+            end
+            return selectbutton,objects
         end
 
         dropdowncontainer.Name = "dropdowncontainer"
@@ -536,6 +543,7 @@ function InsideTab:CreateDropdown(text,list,side,callback)
         dropdowncontainer.Visible = false
         dropdowncontainer.Size = UDim2.new(0, 146, 0, BodyYSize)
         dropdowncontainer.ZIndex = 3
+        return dropdowntable
 end
 
 function InsideTab:CreateToggle(text,side,callback)
