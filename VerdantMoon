@@ -15,6 +15,11 @@ tab:CreateDropdown("Select NPC",{"Twig","Shade Golem","Corroded"},"left",functio
    npc = a
 end)
 
+local noclip
+tab:CreateToggle("Noclip \n(Separated to prevent bugs)","right",function(a)
+    noclip = a
+end)
+
 local hidename
 tab:CreateToggle("Hide-Name","right",function(a)
     hidename = a
@@ -96,9 +101,9 @@ end)
 
 spawn(function()
     game:GetService('RunService').Stepped:connect(function()
-        if nfarm or trinket then
+            if noclip then
             pcall(function() game.Players.LocalPlayer.Character.Humanoid:ChangeState(11) end)
-        end
+            end
         if hidename then
         if game.Players.LocalPlayer.Character.Head:FindFirstChild("NameGui") and hidename then
             game.Players.LocalPlayer.Character.Head:FindFirstChild("NameGui"):Destroy()
