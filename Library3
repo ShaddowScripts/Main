@@ -25,7 +25,7 @@ local TweenService = game:GetService("TweenService")
 Ring1.Name = "Ring1"
 Ring1.Parent = game:WaitForChild("CoreGui")
 
-game:GetService("UserInputService").InputBegan:Connect(function(i,gmp)
+UIS.InputBegan:Connect(function(i,gmp)
     if i.KeyCode == Enum.KeyCode[key] and not gmp then
         Ring1.Enabled = not Ring1.Enabled
     end
@@ -127,7 +127,7 @@ local Entered = false
 
         local gui = Frame
 	
-        local dragging
+        local draggingf
         local dragInput
         local dragStart
         local startPos
@@ -139,13 +139,13 @@ local Entered = false
         
         Reposition.InputBegan:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-                dragging = true
+                draggingf = true
                 dragStart = input.Position
                 startPos = gui.Position
         
                 input.Changed:Connect(function()
                     if input.UserInputState == Enum.UserInputState.End then
-                        dragging = false
+                        draggingf = false
                     end
                 end)
             end
@@ -158,7 +158,7 @@ local Entered = false
         end)
         
         UIS.InputChanged:Connect(function(input)
-            if input == dragInput and dragging then
+            if input == dragInput and draggingf then
                 update(input)
             end
         end)
@@ -303,6 +303,105 @@ function InsideTab:CreateButton(text,side,callback)
     buttonclick.MouseButton1Click:Connect(function()
         pcall(callback)
     end)
+end
+
+function InsideTab:CreateSlider(text,min,max,start,side,callback)
+    text = text or "Slider"
+    min = min or 0
+    max = max or 100
+    start = start or 5
+    callback = callback or function() end
+    if side == "right" then
+        side = RightSide
+    elseif side == "left" then
+        side = LeftSide
+    else
+    side = LeftSide
+    end
+
+    local dragging = false
+
+    local Slider = Instance.new("Frame")
+    local SliderMain = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local Bar = Instance.new("Frame")
+local UICorner_2 = Instance.new("UICorner")
+local SliderText = Instance.new("TextLabel")
+
+
+Slider.Name = "Slider"
+Slider.Parent = side
+Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Slider.BackgroundTransparency = 1.000
+Slider.BorderSizePixel = 0
+Slider.Size = UDim2.new(0, 100, 0, 100)
+
+SliderMain.Name = "SliderMain"
+SliderMain.Parent = Slider
+SliderMain.Active = true
+SliderMain.BackgroundColor3 = Color3.fromRGB(20, 21, 37)
+SliderMain.Size = UDim2.new(0, 145, 0, 17)
+
+UICorner.CornerRadius = UDim.new(0, 2)
+UICorner.Parent = SliderMain
+
+Bar.Name = "Bar"
+Bar.Parent = SliderMain
+Bar.BackgroundColor3 = Color3.fromRGB(255, 178, 0)
+Bar.BorderSizePixel = 0
+Bar.Size = UDim2.new(0, 0, 0, 17)
+
+UICorner_2.CornerRadius = UDim.new(0, 2)
+UICorner_2.Parent = Bar
+
+SliderText.Name = "SliderText"
+SliderText.Parent = SliderMain
+SliderText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+SliderText.BackgroundTransparency = 1.000
+SliderText.Size = UDim2.new(0, 145, 0, 17)
+SliderText.Text = text
+SliderText.ZIndex = 3
+SliderText.Font = Enum.Font.GothamSemibold
+SliderText.TextColor3 = Color3.fromRGB(255, 255, 255)
+SliderText.TextSize = 11.000
+
+local sliderIndicatorFrame = SliderText;
+SliderText.Text = text..tostring(start and math.floor((start / max) * (max - min) + min) or 0);
+
+local slidingFrame = Bar;
+slidingFrame.Size = UDim2.new((start or 0) / max, 0, 1, 0);
+
+if start then
+    local callbackValue = math.floor((start / max) * (max - min) + min);
+    callback(callbackValue);
+end;
+
+local function slide(input)
+    local pos = UDim2.new(math.clamp((input.Position.X - sliderIndicatorFrame.AbsolutePosition.X) / sliderIndicatorFrame.AbsoluteSize.X, 0, 1), 0, 1, 0);
+    slidingFrame:TweenSize(pos, Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.1, true);
+    local value = math.floor(((pos.X.Scale * max) / max) * (max - min) + min);
+    sliderIndicatorFrame.Text = text..tostring(value);
+    callback(value);
+end;
+
+sliderIndicatorFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        slide(input);
+        dragging = true;
+    end;
+end);
+
+sliderIndicatorFrame.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false;
+    end;
+end);
+
+UIS.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        slide(input);
+    end;
+end);
 end
 
 function InsideTab:CreateDropdown(text,list,side,callback)
