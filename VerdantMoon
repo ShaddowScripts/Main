@@ -82,9 +82,6 @@ spawn(function()
     game:GetService('RunService').Stepped:connect(function()
         pcall(function()
             if nfarm then
-           if game.Players.LocalPlayer.Character.Head:FindFirstChild("NameGui") and hidename then
-               game.Players.LocalPlayer.Character.Head:FindFirstChild("NameGui"):Destroy()
-            end
             teleport(nearestmob().HumanoidRootPart.CFrame)
             if game.Players.LocalPlayer.Backpack:FindFirstChildWhichIsA("Tool") then
                 game.Players.LocalPlayer.Backpack:FindFirstChildWhichIsA("Tool").Parent = game.Players.LocalPlayer.Character
@@ -101,6 +98,11 @@ spawn(function()
     game:GetService('RunService').Stepped:connect(function()
         if nfarm or trinket then
             pcall(function() game.Players.LocalPlayer.Character.Humanoid:ChangeState(11) end)
+        end
+        if hidename then
+        if game.Players.LocalPlayer.Character.Head:FindFirstChild("NameGui") and hidename then
+            game.Players.LocalPlayer.Character.Head:FindFirstChild("NameGui"):Destroy()
+        end
         end
     end)
 end)
