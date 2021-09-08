@@ -32,7 +32,7 @@ UIS.InputBegan:Connect(function(i,gmp)
  end)
 
 Frame.Name = "Frame"
-Frame.ClipsDescendants = true
+Frame.ClipsDescendants = false
 Frame.Active = false
 Frame.Parent = Ring1
 Frame.BackgroundColor3 = Color3.fromRGB(10, 10, 19)
